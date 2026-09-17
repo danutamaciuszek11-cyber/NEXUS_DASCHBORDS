@@ -131,6 +131,61 @@ const PRODUCTS_CATALOG: ProductItem[] = [
     status: 'ONLINE',
     repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git',
     dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway']
+  },
+  {
+    id: 'nexus-vault',
+    name: 'Nexus Crypto Vault',
+    category: 'DECENTRALIZATION',
+    description: 'Suwerenny skarbiec kryptograficzny, zarządzanie kluczami prywatnymi, szyfrowanie zerowej wiedzy (ZK) i sejf kontraktów.',
+    icon: 'shield',
+    badge: 'VAULT',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/Nexus_vault.git',
+    dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway']
+  },
+  {
+    id: 'nexus-ai-sdk-flask',
+    name: 'Nexus AI Inference Engine (Flask & SDK)',
+    category: 'DECENTRALIZATION',
+    description: 'Zewnętrzny silnik inferencji AI oparty o Flask i AI-SDK, bramka konektorów do modeli LLM oraz wektoryzacja promptów.',
+    icon: 'sparkles',
+    badge: 'AI-ENGINE',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/ai-sdk-with-flask.git',
+    dependencies: ['nexus-bella-os', 'neural-link-middleware']
+  },
+  {
+    id: 'rodzina-bellas',
+    name: 'Rodzina Bellas Sovereign Mesh',
+    category: 'COMMUNITY & NETWORK',
+    description: 'Centralne repozytorium kolektywu Rodzina Bellas – tożsamości cyfrowe, archiwa rodowe, więzi suwerenne i kroniki.',
+    icon: 'globe',
+    badge: 'SOVEREIGN',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/RodzinaBellas-.git',
+    dependencies: ['nexus-bella-os', 'nexus-family']
+  },
+  {
+    id: 'neural-link-middleware',
+    name: 'Neural Link Middleware v1.2',
+    category: 'DECENTRALIZATION',
+    description: 'Magistrala pośrednicząca Neural Link v1.2 – ultraszybka wymiana stanów między agentami AI, bufor synaptyczny i łącznik modeli.',
+    icon: 'cpu',
+    badge: 'SYNAPSE',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/-NEURAL-LINK-MIDDLEWARE-v1.2.git',
+    dependencies: ['nexus-bella-os', 'kaisa-online']
+  },
+  {
+    id: 'nexus-docker-node',
+    name: 'Nexus Docker Vanilla Runner',
+    category: 'EDUCATION & SKILLS',
+    description: 'Czysty kontener wykonawczy Docker w Vanilla JS – lekki runner izolowany do uruchamiania mikro-usług w kontenerach.',
+    icon: 'layers',
+    badge: 'DOCKER',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/Nexus-Execution-Node-Pure-Vanilla-JS-Docker-.git',
+    dependencies: ['nexus-bella-os', 'nexus-dev-hub']
   }
 ];
 

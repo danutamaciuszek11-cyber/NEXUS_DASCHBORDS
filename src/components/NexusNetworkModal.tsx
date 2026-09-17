@@ -26,10 +26,14 @@ const DEFAULT_NODES_DATA: MeshNodeItem[] = [
   { id: 'NODE #06', name: 'NEXUS WORLDS SIMULATION', region: 'ap-northeast (Tokyo)', latency: '82ms', status: 'ACTIVE', load: '31%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS_DASCHBORDS.git', dependencies: ['nexus-bella-os', 'nexus-dev-hub'] },
   { id: 'NODE #07', name: 'KAISA ONLINE ORCHESTRATOR', region: 'eu-central (Warsaw)', latency: '5ms', status: 'ACTIVE', load: '22%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git', dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway'] },
   { id: 'NODE #08', name: 'NEXUS DIGITAL CONSTITUTION', region: 'eu-north (Stockholm)', latency: '19ms', status: 'ACTIVE', load: '11%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/-NEXUS-SOVEREIGN-DIGITAL-CONSTITUTION-GOVERNANCE-ECOSYSTEM.git', dependencies: ['nexus-bella-os', 'nexusbook'] },
-  { id: 'NODE #09', name: 'NEXUS ACADEMY (KNOWLEDGE ENGINE)', region: 'eu-south (Milan)', latency: '24ms', status: 'ACTIVE', load: '15%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git', dependencies: ['nexusbook', 'kaisa-online'] },
-  { id: 'NODE #10', name: 'NEXUS RFC-02 PROTOCOL GATEWAY', region: 'sa-east (Sao Paulo)', latency: '98ms', status: 'ACTIVE', load: '8%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-RFC-02-Inter-Project-Synchronization-Protocol-Gateway.git', dependencies: ['nexus-bella-os', 'nexus-family', 'kaisa-online'] },
+  { id: 'NODE #09', name: 'NEURAL LINK MIDDLEWARE v1.2', region: 'eu-south (Milan)', latency: '16ms', status: 'ACTIVE', load: '28%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/-NEURAL-LINK-MIDDLEWARE-v1.2.git', dependencies: ['nexus-bella-os', 'kaisa-online'] },
+  { id: 'NODE #10', name: 'NEXUS CRYPTO VAULT', region: 'sa-east (Sao Paulo)', latency: '98ms', status: 'ACTIVE', load: '8%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/Nexus_vault.git', dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway'] },
   { id: 'NODE #11', name: 'NEXUS REVOLUTION KERNEL', region: 'us-central (Iowa)', latency: '45ms', status: 'ACTIVE', load: '49%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git', dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway'] },
   { id: 'NODE #12', name: 'NEXUS LABS SOVEREIGN R&D', region: 'ap-southeast (Singapore)', latency: '79ms', status: 'ACTIVE', load: '16%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-LABS-Sovereign-R-D-Engine-Collaborative-Organism.git', dependencies: ['nexus-dev-hub', 'kaisa-online', 'nexus-constitution-governance'] },
+  { id: 'NODE #13', name: 'NEXUS AI INFERENCE (FLASK & SDK)', region: 'eu-west (London)', latency: '21ms', status: 'ACTIVE', load: '35%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/ai-sdk-with-flask.git', dependencies: ['nexus-bella-os', 'neural-link-middleware'] },
+  { id: 'NODE #14', name: 'NEXUS RFC-02 PROTOCOL GATEWAY', region: 'eu-central (Frankfurt)', latency: '14ms', status: 'ACTIVE', load: '12%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-RFC-02-Inter-Project-Synchronization-Protocol-Gateway.git', dependencies: ['nexus-bella-os', 'nexus-family', 'kaisa-online'] },
+  { id: 'NODE #15', name: 'NEXUS DOCKER VANILLA RUNNER', region: 'us-west (Oregon)', latency: '58ms', status: 'ACTIVE', load: '24%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/Nexus-Execution-Node-Pure-Vanilla-JS-Docker-.git', dependencies: ['nexus-bella-os', 'nexus-dev-hub'] },
+  { id: 'NODE #16', name: 'RODZINA BELLAS SOVEREIGN MESH', region: 'eu-central (Warsaw)', latency: '5ms', status: 'ACTIVE', load: '10%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/RodzinaBellas-.git', dependencies: ['nexus-bella-os', 'nexus-family'] },
 ];
 
 export const NexusNetworkModal: React.FC<NexusNetworkModalProps> = ({ onClose }) => {
@@ -48,7 +52,7 @@ export const NexusNetworkModal: React.FC<NexusNetworkModalProps> = ({ onClose })
           setIsCloudLive(true);
           eventBus.emit('log', {
             tag: 'CLOUD SQL',
-            message: 'FETCHED 12 MESH NODES FROM nexussocial.pl (PostgreSQL 16.6)',
+            message: 'FETCHED 16 MESH NODES FROM nexussocial.pl (PostgreSQL 16.6)',
             level: 'success',
           });
         }
@@ -72,20 +76,26 @@ export const NexusNetworkModal: React.FC<NexusNetworkModalProps> = ({ onClose })
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           node: 'NODE #01',
-          source_zone: 'CORE',
-          event_type: 'DASHBOARD_PING',
-          payload: { client: 'NexusDashboard', version: '3.5.0', timestamp: Date.now() },
+          source_zone: 'CORE_16_NODES',
+          event_type: 'FULL_MESH_BROADCAST',
+          payload: {
+            client: 'NexusDashboard',
+            version: '3.5.0',
+            activeNodesCount: nodes.length,
+            nodesList: nodes.map(n => ({ id: n.id, name: n.name, repoUrl: n.repoUrl, dependencies: n.dependencies })),
+            timestamp: Date.now()
+          },
           level: 'info'
         })
       });
       eventBus.emit('log', {
         tag: 'CLOUD SQL',
-        message: 'TELEMETRY SENT TO nexussocial.pl // PostgreSQL 16.6',
+        message: '16-NODE TOPOLOGY SYNCHRONIZED WITH nexussocial.pl // PostgreSQL 16.6',
         level: 'success',
       });
-      alert('Pomyślnie wysłano sygnał telemetrii do bazy PostgreSQL na nexussocial.pl!');
+      alert('Pomyślnie zsynchronizowano 16 węzłów z chmurą PostgreSQL na nexussocial.pl!');
     } catch {
-      alert('Wysłano sygnał telemetrii do kolejki buforowej.');
+      alert('Wysłano sygnał synchronizacji 16 węzłów do lokalnej kolejki.');
     } finally {
       setIsSyncing(false);
     }
@@ -108,7 +118,7 @@ export const NexusNetworkModal: React.FC<NexusNetworkModalProps> = ({ onClose })
                   {isCloudLive ? 'CLOUD SQL: nexussocial.pl (ONLINE)' : 'SOVEREIGN MESH: READY'}
                 </span>
               </div>
-              <p className="text-[11px] text-[#64748B]">12 SOVEREIGN NODES // CHMURA SQL: POSTGRESQL 16.6 (nexus)</p>
+              <p className="text-[11px] text-[#64748B]">16 SOVEREIGN NODES // CHMURA SQL: POSTGRESQL 16.6 (nexus)</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -134,7 +144,7 @@ export const NexusNetworkModal: React.FC<NexusNetworkModalProps> = ({ onClose })
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
           <div className="p-3 bg-[#0C101C] rounded-lg border border-[#121827]">
             <span className="text-[10px] text-[#64748B] block uppercase">NODES ONLINE</span>
-            <span className="text-[#00E5FF] font-bold text-base">12 / 12</span>
+            <span className="text-[#00E5FF] font-bold text-base">16 / 16</span>
           </div>
           <div className="p-3 bg-[#0C101C] rounded-lg border border-[#121827]">
             <span className="text-[10px] text-[#64748B] block uppercase">AVG LATENCY</span>

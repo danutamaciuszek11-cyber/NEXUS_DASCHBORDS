@@ -4,6 +4,7 @@ import { eventBus } from './event-bus';
 import { ImageManager } from './image-manager';
 import { auth, syncModuleToCloud, deleteModuleFromCloud } from './firebase';
 import { CapabilityAPI } from './nexus-core';
+import { syncModuleToCloudSQL } from '../db/sync';
 
 export const SYSTEM_ECOSYSTEM_MODULES: Omit<NexusModule, 'installedAt'>[] = [
   {
@@ -167,43 +168,43 @@ export const SYSTEM_ECOSYSTEM_MODULES: Omit<NexusModule, 'installedAt'>[] = [
     ],
   },
   {
-    id: 'nexus-academy',
-    name: 'NEXUS ACADEMY (KNOWLEDGE TRANSFER)',
-    version: '2.4.0',
-    description: 'Silnik transferu wiedzy, cybernetyczne ścieżki certyfikacji, uniwersytet systemowy i edukacja architektów.',
-    entry: 'index.html',
-    accent: '#6366F1', // Indigo
-    status: 'OPERATIONAL',
-    node: 'NODE #09',
-    category: 'EDUCATION & SKILLS',
-    packageType: 'system',
-    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git',
-    dependencies: ['nexusbook', 'kaisa-online'],
-    images: [
-      ImageManager.generateDefaultModuleSvg('NEXUS ACADEMY', '#6366F1', 'NODE #09', 1),
-      ImageManager.generateDefaultModuleSvg('NEXUS ACADEMY', '#6366F1', 'NODE #09', 2),
-      ImageManager.generateDefaultModuleSvg('NEXUS ACADEMY', '#6366F1', 'NODE #09', 3),
-      ImageManager.generateDefaultModuleSvg('NEXUS ACADEMY', '#6366F1', 'NODE #09', 4),
-    ],
-  },
-  {
-    id: 'nexus-rfc-02-gateway',
-    name: 'NEXUS RFC-02 PROTOCOL GATEWAY',
+    id: 'neural-link-middleware',
+    name: 'NEURAL LINK MIDDLEWARE v1.2',
     version: '1.2.0',
-    description: 'Standard protokołu synchronizacji międzyprojektowej RFC-02, rozproszona magistrala danych i brama komunikacji P2P.',
+    description: 'Magistrala pośrednicząca Neural Link v1.2 – ultraszybka wymiana stanów między agentami AI, bufor synaptyczny i łącznik modeli.',
     entry: 'index.html',
     accent: '#06B6D4', // Electric Cyan
     status: 'OPERATIONAL',
-    node: 'NODE #10',
-    category: 'NETWORKING & PROTOCOLS',
+    node: 'NODE #09',
+    category: 'INTEGRATION & API',
     packageType: 'system',
-    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-RFC-02-Inter-Project-Synchronization-Protocol-Gateway.git',
-    dependencies: ['nexus-bella-os', 'nexus-family', 'kaisa-online'],
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/-NEURAL-LINK-MIDDLEWARE-v1.2.git',
+    dependencies: ['nexus-bella-os', 'kaisa-online'],
     images: [
-      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #10', 1),
-      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #10', 2),
-      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #10', 3),
-      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #10', 4),
+      ImageManager.generateDefaultModuleSvg('NEURAL LINK BUS', '#06B6D4', 'NODE #09', 1),
+      ImageManager.generateDefaultModuleSvg('NEURAL LINK BUS', '#06B6D4', 'NODE #09', 2),
+      ImageManager.generateDefaultModuleSvg('NEURAL LINK BUS', '#06B6D4', 'NODE #09', 3),
+      ImageManager.generateDefaultModuleSvg('NEURAL LINK BUS', '#06B6D4', 'NODE #09', 4),
+    ],
+  },
+  {
+    id: 'nexus-vault',
+    name: 'NEXUS CRYPTO VAULT',
+    version: '2.0.0',
+    description: 'Suwerenny skarbiec kryptograficzny, zarządzanie kluczami prywatnymi, szyfrowanie zerowej wiedzy (ZK) i sejf kontraktów.',
+    entry: 'index.html',
+    accent: '#EAB308', // Gold
+    status: 'OPERATIONAL',
+    node: 'NODE #10',
+    category: 'SECURITY & VAULT',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/Nexus_vault.git',
+    dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('NEXUS VAULT', '#EAB308', 'NODE #10', 1),
+      ImageManager.generateDefaultModuleSvg('NEXUS VAULT', '#EAB308', 'NODE #10', 2),
+      ImageManager.generateDefaultModuleSvg('NEXUS VAULT', '#EAB308', 'NODE #10', 3),
+      ImageManager.generateDefaultModuleSvg('NEXUS VAULT', '#EAB308', 'NODE #10', 4),
     ],
   },
   {
@@ -246,6 +247,86 @@ export const SYSTEM_ECOSYSTEM_MODULES: Omit<NexusModule, 'installedAt'>[] = [
       ImageManager.generateDefaultModuleSvg('NEXUS LABS R&D', '#F97316', 'NODE #12', 4),
     ],
   },
+  {
+    id: 'nexus-ai-sdk-flask',
+    name: 'NEXUS AI INFERENCE (FLASK & SDK)',
+    version: '1.1.0',
+    description: 'Zewnętrzny silnik inferencji AI oparty o Flask i AI-SDK, bramka konektorów do modeli LLM oraz wektoryzacja promptów.',
+    entry: 'index.html',
+    accent: '#8B5CF6', // Violet
+    status: 'OPERATIONAL',
+    node: 'NODE #13',
+    category: 'AI & NEURAL',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/ai-sdk-with-flask.git',
+    dependencies: ['nexus-bella-os', 'neural-link-middleware'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('AI INFERENCE FLASK', '#8B5CF6', 'NODE #13', 1),
+      ImageManager.generateDefaultModuleSvg('AI INFERENCE FLASK', '#8B5CF6', 'NODE #13', 2),
+      ImageManager.generateDefaultModuleSvg('AI INFERENCE FLASK', '#8B5CF6', 'NODE #13', 3),
+      ImageManager.generateDefaultModuleSvg('AI INFERENCE FLASK', '#8B5CF6', 'NODE #13', 4),
+    ],
+  },
+  {
+    id: 'nexus-rfc-02-gateway',
+    name: 'NEXUS RFC-02 PROTOCOL GATEWAY',
+    version: '1.2.0',
+    description: 'Standard protokołu synchronizacji międzyprojektowej RFC-02, rozproszona magistrala danych i brama komunikacji P2P.',
+    entry: 'index.html',
+    accent: '#06B6D4', // Electric Cyan
+    status: 'OPERATIONAL',
+    node: 'NODE #14',
+    category: 'NETWORKING & PROTOCOLS',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-RFC-02-Inter-Project-Synchronization-Protocol-Gateway.git',
+    dependencies: ['nexus-bella-os', 'nexus-family', 'kaisa-online'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #14', 1),
+      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #14', 2),
+      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #14', 3),
+      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #14', 4),
+    ],
+  },
+  {
+    id: 'nexus-docker-node',
+    name: 'NEXUS DOCKER VANILLA RUNNER',
+    version: '1.0.0',
+    description: 'Czysty kontener wykonawczy Docker w Vanilla JS – lekki runner izolowany do uruchamiania mikro-usług w kontenerach.',
+    entry: 'index.html',
+    accent: '#0284C7', // Sky Blue
+    status: 'OPERATIONAL',
+    node: 'NODE #15',
+    category: 'DEVELOPER TOOLS',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/Nexus-Execution-Node-Pure-Vanilla-JS-Docker-.git',
+    dependencies: ['nexus-bella-os', 'nexus-dev-hub'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('DOCKER VANILLA RUNNER', '#0284C7', 'NODE #15', 1),
+      ImageManager.generateDefaultModuleSvg('DOCKER VANILLA RUNNER', '#0284C7', 'NODE #15', 2),
+      ImageManager.generateDefaultModuleSvg('DOCKER VANILLA RUNNER', '#0284C7', 'NODE #15', 3),
+      ImageManager.generateDefaultModuleSvg('DOCKER VANILLA RUNNER', '#0284C7', 'NODE #15', 4),
+    ],
+  },
+  {
+    id: 'rodzina-bellas',
+    name: 'RODZINA BELLAS SOVEREIGN MESH',
+    version: '3.2.0',
+    description: 'Centralne repozytorium kolektywu Rodzina Bellas – tożsamości cyfrowe, archiwa rodowe, więzi suwerenne i kroniki.',
+    entry: 'index.html',
+    accent: '#D946EF', // Fuchsia
+    status: 'OPERATIONAL',
+    node: 'NODE #16',
+    category: 'COMMUNITY & NETWORK',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/RodzinaBellas-.git',
+    dependencies: ['nexus-bella-os', 'nexus-family'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('RODZINA BELLAS MESH', '#D946EF', 'NODE #16', 1),
+      ImageManager.generateDefaultModuleSvg('RODZINA BELLAS MESH', '#D946EF', 'NODE #16', 2),
+      ImageManager.generateDefaultModuleSvg('RODZINA BELLAS MESH', '#D946EF', 'NODE #16', 3),
+      ImageManager.generateDefaultModuleSvg('RODZINA BELLAS MESH', '#D946EF', 'NODE #16', 4),
+    ],
+  },
 ];
 
 export class ModuleRegistry {
@@ -259,7 +340,7 @@ export class ModuleRegistry {
     const storedModules = await storage.getAllModules();
     if (storedModules.length > 0) {
       storedModules.forEach((m) => this.modules.set(m.id, m));
-      // Auto-synchronize all 12 ecosystem repositories and dependencies into existing storage
+      // Auto-synchronize all 16 ecosystem repositories and dependencies into existing storage
       await this.syncEcosystemRepositories();
     } else {
       // Seed all default native NEXUS modules with repoUrls & dependencies
@@ -270,7 +351,7 @@ export class ModuleRegistry {
     eventBus.emit('registry:updated', this.getAll());
     eventBus.emit('log', {
       tag: 'REGISTRY',
-      message: `${this.modules.size} MODULES LOADED (ECOSYSTEM REPOSITORIES & DEPENDENCY GRAPH READY)`,
+      message: `${this.modules.size} MODULES LOADED (16 SOVEREIGN REPOSITORIES & DEPENDENCY GRAPH READY)`,
       level: 'info',
     });
   }
@@ -331,6 +412,7 @@ export class ModuleRegistry {
             if (auth.currentUser) {
               await syncModuleToCloud(auth.currentUser.uid, mod);
             }
+            await syncModuleToCloudSQL(mod, auth.currentUser?.uid);
             eventBus.emit('registry:updated', this.getAll());
           }
         },
@@ -388,6 +470,7 @@ export class ModuleRegistry {
       if (auth.currentUser) {
         await syncModuleToCloud(auth.currentUser.uid, module);
       }
+      await syncModuleToCloudSQL(module, auth.currentUser?.uid);
     }
 
     eventBus.emit('registry:updated', this.getAll());
@@ -406,6 +489,7 @@ export class ModuleRegistry {
       if (auth.currentUser) {
         await syncModuleToCloud(auth.currentUser.uid, mod);
       }
+      await syncModuleToCloudSQL(mod, auth.currentUser?.uid);
       eventBus.emit('registry:updated', this.getAll());
     }
   }
@@ -510,6 +594,8 @@ export class ModuleRegistry {
         };
         this.modules.set(newMod.id, newMod);
         await storage.saveModule(newMod);
+        // Sync to cloud
+        syncModuleToCloudSQL(newMod).catch(() => {});
       } else {
         // Update repo URL, dependencies, node, and category if updated in standard ecosystem
         existing.repoUrl = ecoMod.repoUrl;
@@ -518,12 +604,14 @@ export class ModuleRegistry {
         existing.category = ecoMod.category;
         if (!existing.description) existing.description = ecoMod.description;
         await storage.saveModule(existing);
+        // Sync to cloud
+        syncModuleToCloudSQL(existing).catch(() => {});
       }
     }
   }
 
   private async seedDefaultModules(): Promise<void> {
-    let t = Date.now() - 120000;
+    let t = Date.now() - 160000;
     for (const item of SYSTEM_ECOSYSTEM_MODULES) {
       t += 10000;
       const fullModule: NexusModule = {
@@ -540,6 +628,8 @@ export class ModuleRegistry {
       };
       this.modules.set(fullModule.id, fullModule);
       await storage.saveModule(fullModule);
+      // Sync to cloud
+      syncModuleToCloudSQL(fullModule).catch(() => {});
     }
   }
 }
