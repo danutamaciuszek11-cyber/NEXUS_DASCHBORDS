@@ -5,6 +5,7 @@ import { eventBus } from '../core/event-bus';
 interface NexusProductsViewProps {
   onBackToGateway: () => void;
   onSwitchToTools: () => void;
+  onLaunchModule?: (productId: string) => void;
 }
 
 interface ProductItem {
@@ -105,9 +106,11 @@ const PRODUCTS_CATALOG: ProductItem[] = [
 export const NexusProductsView: React.FC<NexusProductsViewProps> = ({
   onBackToGateway = () => {},
   onSwitchToTools = () => {},
+  onLaunchModule,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [activeCloudProduct, setActiveCloudProduct] = useState<ProductItem | null>(null);
 
   const categories = ['ALL', 'COMMUNITY & NETWORK', 'CONTENT & KNOWLEDGE', 'MEDIA & ASSETS', 'COMMERCE & FULFILLMENT', 'EDUCATION & SKILLS', 'DECENTRALIZATION'];
 
@@ -124,7 +127,11 @@ export const NexusProductsView: React.FC<NexusProductsViewProps> = ({
       message: `INITIALIZING CLOUD SERVICE: [${p.name.toUpperCase()}]`,
       level: 'success',
     });
-    alert(`Łączenie z produktem ${p.name} w chmurze NEXUS CLOUD... Usługa aktywna.`);
+    if (onLaunchModule) {
+      onLaunchModule(p.id);
+    } else {
+      setActiveCloudProduct(p);
+    }
   };
 
   return (
@@ -237,6 +244,72 @@ export const NexusProductsView: React.FC<NexusProductsViewProps> = ({
           </div>
         ))}
       </div>
+
+      {/* Cloud Instance Info Modal */}
+      {activeCloudProduct && (
+        <div className="fixed inset-0 z-50 bg-[#05070D]/90 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn font-mono-tech">
+          <div className="w-full max-w-lg bg-[#090C16] border border-[#A855F7]/40 rounded-xl p-6 shadow-[0_0_40px_rgba(168,85,247,0.2)]">
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#121827]">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#A855F7] shadow-[0_0_8px_#A855F7]" />
+                <h3 className="text-white text-xs font-bold uppercase tracking-wider">
+                  NEXUS CLOUD INSTANCE // {activeCloudProduct.name}
+                </h3>
+              </div>
+              <button
+                onClick={() => setActiveCloudProduct(null)}
+                className="text-[#64748B] hover:text-white text-xs cursor-pointer px-1.5 py-0.5"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              <div className="p-3 bg-[#0C101C] rounded-lg border border-[#121827]">
+                <div className="text-[#A855F7] font-bold text-sm mb-1">{activeCloudProduct.name}</div>
+                <div className="text-[#94A3B8] text-[11px] leading-relaxed">{activeCloudProduct.description}</div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-[11px]">
+                <div className="p-2.5 bg-[#05070D] rounded border border-[#121827]">
+                  <span className="text-[10px] text-[#64748B] block">STATUS INSTANCJI</span>
+                  <span className="text-[#00D9A6] font-bold">ONLINE (HA CLUSTER)</span>
+                </div>
+                <div className="p-2.5 bg-[#05070D] rounded border border-[#121827]">
+                  <span className="text-[10px] text-[#64748B] block">REGION CLOUD</span>
+                  <span className="text-[#00E5FF] font-bold">eu-central-1 (Warsaw)</span>
+                </div>
+                <div className="p-2.5 bg-[#05070D] rounded border border-[#121827]">
+                  <span className="text-[10px] text-[#64748B] block">PROTOCÓŁ</span>
+                  <span className="text-white font-bold">gRPC / TLS 1.3 / P2P</span>
+                </div>
+                <div className="p-2.5 bg-[#05070D] rounded border border-[#121827]">
+                  <span className="text-[10px] text-[#64748B] block">LATENCY</span>
+                  <span className="text-[#00D9A6] font-bold">&lt; 8 ms</span>
+                </div>
+              </div>
+
+              <div className="pt-2 flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    alert(`Nawiązano bezpieczne połączenie z instancją chmurową ${activeCloudProduct.name}.`);
+                    setActiveCloudProduct(null);
+                  }}
+                  className="flex-1 py-2 rounded-lg bg-[#A855F7] text-white hover:bg-[#A855F7]/90 font-bold text-xs uppercase tracking-wider cursor-pointer transition-all"
+                >
+                  POŁĄCZ Z INSTANCJĄ
+                </button>
+                <button
+                  onClick={() => setActiveCloudProduct(null)}
+                  className="px-4 py-2 rounded-lg bg-[#0C101C] border border-[#121827] text-[#94A3B8] hover:text-white text-xs uppercase cursor-pointer"
+                >
+                  ZAMKNIJ
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

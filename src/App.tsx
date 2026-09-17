@@ -473,6 +473,18 @@ export default function App() {
           <NexusProductsView
             onBackToGateway={() => setViewMode('gateway')}
             onSwitchToTools={() => setViewMode('creator')}
+            onLaunchModule={(prodId) => {
+              let targetMod = modules.find((m) => m.id === prodId);
+              if (!targetMod) {
+                if (prodId === 'nexus-book') targetMod = modules.find((m) => m.id === 'nexusbook');
+                if (prodId === 'nexus-media') targetMod = modules.find((m) => m.id === 'nexus-media-forge');
+                if (prodId === 'kaisa-online') targetMod = modules.find((m) => m.id === 'kaisa-online');
+                if (prodId === 'nexus-social') targetMod = modules.find((m) => m.id === 'nexus-family');
+              }
+              if (targetMod) {
+                setSelectedModule(targetMod);
+              }
+            }}
           />
         )}
 
