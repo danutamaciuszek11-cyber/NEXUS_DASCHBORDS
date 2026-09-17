@@ -59,18 +59,19 @@ export class ZipReader {
       const fileObj = zip.files[filename];
       const lower = filename.toLowerCase();
       const isImage = /\.(png|jpe?g|webp|svg|gif|bmp|ico)$/i.test(lower);
+      const isMediaOrBinary = /\.(mp3|wav|ogg|mp4|webm|woff2?|ttf|otf|eot|wasm|bin|pdf)$/i.test(lower);
 
       onProgress?.(filename, ++idx, fileKeys.length);
 
-      if (isImage) {
+      if (isImage || isMediaOrBinary) {
         const blob = await fileObj.async('blob');
         const dataUrl = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result as string);
-          reader.onerror = () => reject(new Error('Failed to read image blob'));
+          reader.onerror = () => reject(new Error(`Failed to read asset blob: ${filename}`));
           reader.readAsDataURL(blob);
         });
-        entries[filename] = { type: 'image', content: dataUrl, blob };
+        entries[filename] = { type: isImage ? 'image' : 'binary', content: dataUrl, blob };
       } else {
         const text = await fileObj.async('text');
         entries[filename] = { type: 'text', content: text };

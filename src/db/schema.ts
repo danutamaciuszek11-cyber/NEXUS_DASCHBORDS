@@ -32,3 +32,29 @@ export const entriesRelations = relations(entries, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+// Cloud-Tier Module Registry for PostgreSQL Cloud SQL (Community / Products / Bella OS)
+export const cloudModules = pgTable('cloud_modules', {
+  id: serial('id').primaryKey(),
+  moduleId: text('module_id').notNull().unique(),
+  name: text('name').notNull(),
+  version: text('version').notNull(),
+  description: text('description').notNull(),
+  category: text('category').notNull(),
+  node: text('node').notNull(),
+  status: text('status').notNull(),
+  accent: text('accent').notNull(),
+  authorUid: text('author_uid'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
+
+// System Mesh Telemetry for Cloud SQL
+export const systemTelemetry = pgTable('system_telemetry', {
+  id: serial('id').primaryKey(),
+  node: text('node').notNull(),
+  event: text('event').notNull(),
+  details: text('details'),
+  level: text('level').default('info'),
+  createdAt: timestamp('created_at').defaultNow(),
+});

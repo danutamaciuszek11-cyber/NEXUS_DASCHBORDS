@@ -17,6 +17,10 @@ export class ModuleRegistry {
     const storedModules = await storage.getAllModules();
     if (storedModules.length > 0) {
       storedModules.forEach((m) => this.modules.set(m.id, m));
+      // Auto-integrate KAISA ONLINE if not yet present in existing local DB
+      if (!this.modules.has('kaisa-online')) {
+        await this.registerKaisaModule();
+      }
     } else {
       // Seed default native NEXUS modules inspired by NEXUS interfaces
       await this.seedDefaultModules();
@@ -340,6 +344,24 @@ export class ModuleRegistry {
           ImageManager.generateDefaultModuleSvg('NEXUS WORLDS', '#8B5CF6', 'NODE #06', 4),
         ],
       },
+      {
+        id: 'kaisa-online',
+        name: 'KAISA ONLINE',
+        version: '2.1.0',
+        description: 'KAISA Protocol ETERNIVERSE-DEV-CORE - Autonomous microservice lifecycle orchestrator & pipeline engine.',
+        entry: 'index.html',
+        accent: '#F59E0B', // Amber / Gold
+        status: 'OPERATIONAL',
+        node: 'NODE #07',
+        category: 'ORCHESTRATION',
+        packageType: 'system',
+        images: [
+          ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 1),
+          ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 2),
+          ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 3),
+          ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 4),
+        ],
+      },
     ];
 
     let t = Date.now() - 100000;
@@ -360,6 +382,43 @@ export class ModuleRegistry {
       this.modules.set(fullModule.id, fullModule);
       await storage.saveModule(fullModule);
     }
+  }
+
+  private async registerKaisaModule(): Promise<void> {
+    const kaisaMod: NexusModule = {
+      id: 'kaisa-online',
+      name: 'KAISA ONLINE',
+      version: '2.1.0',
+      description: 'KAISA Protocol ETERNIVERSE-DEV-CORE - Autonomous microservice lifecycle orchestrator & pipeline engine.',
+      entry: 'index.html',
+      accent: '#F59E0B',
+      status: 'OPERATIONAL',
+      node: 'NODE #07',
+      category: 'ORCHESTRATION',
+      packageType: 'system',
+      installedAt: Date.now(),
+      images: [
+        ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 1),
+        ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 2),
+        ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 3),
+        ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 4),
+      ],
+      shellConfig: {
+        sandbox: 'allow-scripts allow-forms allow-same-origin',
+        isolationLevel: 'strict',
+        defaultMode: 'window',
+        allowAi: true,
+        allowStorage: true,
+        allowEvents: true,
+      },
+    };
+    this.modules.set(kaisaMod.id, kaisaMod);
+    await storage.saveModule(kaisaMod);
+    eventBus.emit('log', {
+      tag: 'KAISA CORE',
+      message: 'KAISA ONLINE [ETERNIVERSE-DEV-CORE] LOADED INTO REGISTRY',
+      level: 'success',
+    });
   }
 }
 

@@ -90,6 +90,15 @@ const PRODUCTS_CATALOG: ProductItem[] = [
     icon: 'cpu',
     badge: 'GATEWAY',
     status: 'ONLINE'
+  },
+  {
+    id: 'kaisa-online',
+    name: 'KAISA Online',
+    category: 'DECENTRALIZATION',
+    description: 'KAISA Protocol ETERNIVERSE-DEV-CORE: Autonomiczny orkiestrator mikrousług, samonaprawiający się pipeline i zero-trust security fabric.',
+    icon: 'cpu',
+    badge: 'ORCHESTRATOR',
+    status: 'ONLINE'
   }
 ];
 

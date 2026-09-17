@@ -15,6 +15,8 @@ import { AdminPanel } from './components/AdminPanel';
 import { NexusGateway } from './components/NexusGateway';
 import { NexusProductsView } from './components/NexusProductsView';
 import { NexusFamilyView } from './components/NexusFamilyView';
+import { NexusNetworkModal } from './components/NexusNetworkModal';
+import { NexusAboutModal } from './components/NexusAboutModal';
 import { BellasCompanion } from './components/BellasCompanion';
 import { XnlParser } from './xnl/xnl-parser';
 import { NexusZipManager } from './core/zip/zip-manager';
@@ -50,6 +52,10 @@ export default function App() {
   // XNL State
   const [xnlCode, setXnlCode] = useState<string>('');
   const [showXnlModal, setShowXnlModal] = useState(false);
+
+  // Network & About Modals
+  const [showNetworkModal, setShowNetworkModal] = useState(false);
+  const [showAboutModal, setShowAboutModal] = useState(false);
 
   // Auth state
   const [currentUser, setCurrentUser] = useState<User | null>(auth.currentUser);
@@ -308,14 +314,14 @@ export default function App() {
                 FAMILY
               </button>
               <button
-                onClick={() => alert('NEXUS Decentralized Mesh Network: 12 nodes online, zero latency telemetry active.')}
-                className="px-2.5 py-1 rounded text-[#94A3B8] hover:text-white hover:bg-[#090C16] transition-all cursor-pointer uppercase"
+                onClick={() => setShowNetworkModal(true)}
+                className="px-2.5 py-1 rounded text-[#94A3B8] hover:text-[#00E5FF] hover:bg-[#090C16] transition-all cursor-pointer uppercase"
               >
                 NETWORK
               </button>
               <button
-                onClick={() => alert('NEXUS Ecosystem v3.5 // One Core. Three Paths. One Nexus. Architect: Maciej / Eterion.')}
-                className="px-2.5 py-1 rounded text-[#94A3B8] hover:text-white hover:bg-[#090C16] transition-all cursor-pointer uppercase"
+                onClick={() => setShowAboutModal(true)}
+                className="px-2.5 py-1 rounded text-[#94A3B8] hover:text-[#A855F7] hover:bg-[#090C16] transition-all cursor-pointer uppercase"
               >
                 ABOUT
               </button>
@@ -691,6 +697,16 @@ export default function App() {
           e.target.value = '';
         }}
       />
+
+      {/* Decentralized Mesh Network Modal */}
+      {showNetworkModal && (
+        <NexusNetworkModal onClose={() => setShowNetworkModal(false)} />
+      )}
+
+      {/* Ecosystem Architecture & Manifest Modal */}
+      {showAboutModal && (
+        <NexusAboutModal onClose={() => setShowAboutModal(false)} />
+      )}
 
       {/* Bella Resident Companion in Bottom Right Corner */}
       <BellasCompanion />

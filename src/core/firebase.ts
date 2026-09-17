@@ -55,8 +55,27 @@ export async function logoutUser(): Promise<void> {
   });
 }
 
-// Sync modules to Firestore if user is authenticated
+// Sovereign Data Routing: Only system/cloud products and community items sync to cloud.
+// User and Creator zones retain absolute local data sovereignty in IndexedDB.
+export function shouldSyncToCloud(module: NexusModule): boolean {
+  if (module.packageType === 'custom-zip') {
+    return false; // Sovereign rule: custom installed ZIP packages stay strictly local
+  }
+  const cloudCategories = ['SYSTEM', 'COMMUNICATION', 'PRODUCTS', 'COMMUNITY', 'SHARED'];
+  return cloudCategories.includes((module.category || '').toUpperCase());
+}
+
+// Sync modules to Firestore if user is authenticated and module belongs to cloud tier
 export async function syncModuleToCloud(userId: string, module: NexusModule): Promise<void> {
+  if (!shouldSyncToCloud(module)) {
+    eventBus.emit('log', {
+      tag: 'SOVEREIGN DATA',
+      message: `LOCAL ISOLATION ENFORCED: [${module.name}] preserved in local storage.`,
+      level: 'info',
+    });
+    return;
+  }
+
   try {
     const docRef = doc(db, 'users', userId, 'modules', module.id);
     // Don't sync huge raw zip binaries directly, sync metadata & images
