@@ -1,10 +1,10 @@
 -- ============================================================================
 -- MIGRATION: 007_nexus_dashboards_core.sql
 -- PROJECT: NEXUS SOCIAL (nexussocial.pl) / ETERNIVERSE OS
--- PURPOSE: Dedykowana struktura SQL dla NEXUS DASHBOARD & 3 ŚCIEŻEK SUWERENNOŚCI
+-- PURPOSE: Dedykowana struktura SQL dla NEXUS DASHBOARD & 12 WĘZŁÓW P2P & ŚCIEŻEK
 -- ENGINE: PostgreSQL 16.6 (nexus)
 -- AUTHOR: Eterion Engine // Maciej Maciuszek (Architekt)
--- INTEGRITY: Bezpieczna migracja (CREATE TABLE IF NOT EXISTS) - ZERO ryzyka dla bazy nexus
+-- INTEGRITY: Bezpieczna migracja (CREATE TABLE IF NOT EXISTS / ALTER ADD COLUMN)
 -- ============================================================================
 
 -- 1. TABELA WĘZŁÓW SIATKI P2P (NEXUS DECENTRALIZED MESH NODES)
@@ -16,8 +16,14 @@ CREATE TABLE IF NOT EXISTS nexus_nodes (
     status VARCHAR(32) DEFAULT 'ACTIVE',
     system_load VARCHAR(32) DEFAULT '15%',
     protocol VARCHAR(64) DEFAULT 'gRPC / TLS 1.3 / P2P',
+    repo_url TEXT,
+    dependencies JSONB DEFAULT '[]'::jsonb,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Ensure columns exist if table was already created
+ALTER TABLE nexus_nodes ADD COLUMN IF NOT EXISTS repo_url TEXT;
+ALTER TABLE nexus_nodes ADD COLUMN IF NOT EXISTS dependencies JSONB DEFAULT '[]'::jsonb;
 
 -- 2. TABELA 3 ŚCIEŻEK SYSTEMU (NEXUS PILLARS / ZONES)
 CREATE TABLE IF NOT EXISTS nexus_zones (
@@ -44,10 +50,16 @@ CREATE TABLE IF NOT EXISTS nexus_cloud_modules (
     status VARCHAR(32) DEFAULT 'OPERATIONAL',
     package_type VARCHAR(32) DEFAULT 'system',
     capabilities JSONB DEFAULT '["storage", "ai", "events", "bellas-core"]'::jsonb,
+    repo_url TEXT,
+    dependencies JSONB DEFAULT '[]'::jsonb,
     is_cloud_synced BOOLEAN DEFAULT true,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Ensure columns exist if table was already created
+ALTER TABLE nexus_cloud_modules ADD COLUMN IF NOT EXISTS repo_url TEXT;
+ALTER TABLE nexus_cloud_modules ADD COLUMN IF NOT EXISTS dependencies JSONB DEFAULT '[]'::jsonb;
 
 -- 4. REJESTR ZWERYFIKOWANYCH PAKIETÓW ZIP (NEXUS ZIP PACKAGES)
 CREATE TABLE IF NOT EXISTS nexus_zip_packages (
@@ -78,21 +90,21 @@ CREATE INDEX IF NOT EXISTS idx_nexus_cloud_modules_category ON nexus_cloud_modul
 CREATE INDEX IF NOT EXISTS idx_nexus_telemetry_node ON nexus_dashboards_telemetry(node);
 CREATE INDEX IF NOT EXISTS idx_nexus_telemetry_created ON nexus_dashboards_telemetry(created_at DESC);
 
--- 7. INICJALIZACJA 12 WĘZŁÓW SIATKI P2P
-INSERT INTO nexus_nodes (id, name, region, latency, status, system_load, protocol)
+-- 7. INICJALIZACJA 12 WĘZŁÓW SIATKI P2P Z PRZYPISANYMI REPOZYTORIAMI I ZALEŻNOŚCIAMI
+INSERT INTO nexus_nodes (id, name, region, latency, status, system_load, protocol, repo_url, dependencies)
 VALUES
-    ('NODE #01', 'NEXUS BELLA CORE', 'eu-central (Warsaw)', '4ms', 'ACTIVE', '18%', 'BELLA-NEURAL-BUS v4.2'),
-    ('NODE #02', 'FAMILY COLLECTIVE', 'eu-west (Frankfurt)', '12ms', 'ACTIVE', '14%', 'SOVEREIGN-P2P'),
-    ('NODE #03', 'MEDIA SYNTH MATRIX', 'us-east (Virginia)', '38ms', 'ACTIVE', '42%', 'SENSORY-PIPELINE'),
-    ('NODE #04', 'NEXUSBOOK LEDGER', 'eu-central (Warsaw)', '3ms', 'ACTIVE', '9%', 'NXL-IMMUTABLE-LEDGER'),
-    ('NODE #05', 'DEV HUB WASM BOX', 'us-west (Oregon)', '54ms', 'ACTIVE', '27%', 'WASM-SANDBOX-P2P'),
-    ('NODE #06', 'WORLDS SIMULATION', 'ap-northeast (Tokyo)', '82ms', 'ACTIVE', '31%', 'SIM-TOPOLOGY'),
-    ('NODE #07', 'KAISA ORCHESTRATOR', 'eu-central (Warsaw)', '5ms', 'ACTIVE', '22%', 'ETERNIVERSE-DEV-CORE'),
-    ('NODE #08', 'P2P ZERO-TRUST EDGE', 'eu-north (Stockholm)', '19ms', 'ACTIVE', '11%', 'TLS-1.3-ZERO-TRUST'),
-    ('NODE #09', 'NEURAL ROUTER #09', 'eu-south (Milan)', '24ms', 'ACTIVE', '15%', 'NEURAL-ROUTE-v2'),
-    ('NODE #10', 'CRYPTO VAULT MESH', 'sa-east (Sao Paulo)', '98ms', 'ACTIVE', '8%', 'CRYPTO-SOVEREIGN-VAULT'),
-    ('NODE #11', 'AI INFERENCE CLOUD', 'us-central (Iowa)', '45ms', 'ACTIVE', '49%', 'GEMINI-API-BRIDGE'),
-    ('NODE #12', 'ETERNIVERSE RELAY', 'ap-southeast (Singapore)', '79ms', 'ACTIVE', '16%', 'P2P-RELAY-FABRIC')
+    ('NODE #01', 'NEXUS BELLA OS (ROOT KERNEL)', 'eu-central (Warsaw)', '4ms', 'ACTIVE', '18%', 'BELLA-NEURAL-BUS v4.2', 'https://github.com/danutamaciuszek11-cyber/NEXUS_DASCHBORDS.git', '[]'::jsonb),
+    ('NODE #02', 'NEXUS FAMILY COLLECTIVE', 'eu-west (Frankfurt)', '12ms', 'ACTIVE', '14%', 'SOVEREIGN-P2P', 'https://github.com/danutamaciuszek11-cyber/NEXUS_FAMILI.git', '["nexus-bella-os"]'::jsonb),
+    ('NODE #03', 'NEXUS MEDIA & CYBER RADIO', 'us-east (Virginia)', '38ms', 'ACTIVE', '42%', 'SENSORY-PIPELINE', 'https://github.com/danutamaciuszek11-cyber/-NEXUS-MEDIA-Studio-D-wi-ku-Syntetycznego-Transmisji-Cyber-Radiostacji.git', '["nexus-bella-os"]'::jsonb),
+    ('NODE #04', 'NEXUSBOOK LEDGER', 'eu-central (Warsaw)', '3ms', 'ACTIVE', '9%', 'NXL-IMMUTABLE-LEDGER', 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git', '["nexus-bella-os"]'::jsonb),
+    ('NODE #05', 'NEXUS DEV HUB (KUŹNIA 9 ŚWIATÓW)', 'us-west (Oregon)', '54ms', 'ACTIVE', '27%', 'WASM-SANDBOX-P2P', 'https://github.com/danutamaciuszek11-cyber/NEXUS-DEV-HUB-Ekosystem-9-wiat-w-Ku-nia-Forge-.git', '["nexus-bella-os", "nexus-rfc-02-gateway"]'::jsonb),
+    ('NODE #06', 'NEXUS WORLDS SIMULATION', 'ap-northeast (Tokyo)', '82ms', 'ACTIVE', '31%', 'SIM-TOPOLOGY', 'https://github.com/danutamaciuszek11-cyber/NEXUS_DASCHBORDS.git', '["nexus-bella-os", "nexus-dev-hub"]'::jsonb),
+    ('NODE #07', 'KAISA ONLINE ORCHESTRATOR', 'eu-central (Warsaw)', '5ms', 'ACTIVE', '22%', 'ETERNIVERSE-DEV-CORE', 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git', '["nexus-bella-os", "nexus-rfc-02-gateway"]'::jsonb),
+    ('NODE #08', 'NEXUS DIGITAL CONSTITUTION', 'eu-north (Stockholm)', '19ms', 'ACTIVE', '11%', 'TLS-1.3-ZERO-TRUST', 'https://github.com/danutamaciuszek11-cyber/-NEXUS-SOVEREIGN-DIGITAL-CONSTITUTION-GOVERNANCE-ECOSYSTEM.git', '["nexus-bella-os", "nexusbook"]'::jsonb),
+    ('NODE #09', 'NEXUS ACADEMY (KNOWLEDGE TRANSFER)', 'eu-south (Milan)', '24ms', 'ACTIVE', '15%', 'NEURAL-ROUTE-v2', 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git', '["nexusbook", "kaisa-online"]'::jsonb),
+    ('NODE #10', 'NEXUS RFC-02 PROTOCOL GATEWAY', 'sa-east (Sao Paulo)', '98ms', 'ACTIVE', '8%', 'CRYPTO-SOVEREIGN-VAULT', 'https://github.com/danutamaciuszek11-cyber/NEXUS-RFC-02-Inter-Project-Synchronization-Protocol-Gateway.git', '["nexus-bella-os", "nexus-family", "kaisa-online"]'::jsonb),
+    ('NODE #11', 'NEXUS REVOLUTION KERNEL', 'us-central (Iowa)', '45ms', 'ACTIVE', '49%', 'GEMINI-API-BRIDGE', 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git', '["nexus-bella-os", "nexus-rfc-02-gateway"]'::jsonb),
+    ('NODE #12', 'NEXUS LABS SOVEREIGN R&D', 'ap-southeast (Singapore)', '79ms', 'ACTIVE', '16%', 'P2P-RELAY-FABRIC', 'https://github.com/danutamaciuszek11-cyber/NEXUS-LABS-Sovereign-R-D-Engine-Collaborative-Organism.git', '["nexus-dev-hub", "kaisa-online", "nexus-constitution-governance"]'::jsonb)
 ON CONFLICT (id) DO UPDATE SET
     name = EXCLUDED.name,
     region = EXCLUDED.region,
@@ -100,6 +112,8 @@ ON CONFLICT (id) DO UPDATE SET
     status = EXCLUDED.status,
     system_load = EXCLUDED.system_load,
     protocol = EXCLUDED.protocol,
+    repo_url = EXCLUDED.repo_url,
+    dependencies = EXCLUDED.dependencies,
     updated_at = NOW();
 
 -- 8. INICJALIZACJA 3 GŁÓWNYCH ŚCIEŻEK (3 PILLARS)
@@ -113,19 +127,28 @@ ON CONFLICT (zone_id) DO UPDATE SET
     description = EXCLUDED.description,
     storage_type = EXCLUDED.storage_type;
 
--- 9. INICJALIZACJA MODUŁÓW SYSTEMOWYCH W BAZIE CHMURY
-INSERT INTO nexus_cloud_modules (module_id, name, version, description, entry, accent, node, category, status)
+-- 9. INICJALIZACJA MODUŁÓW SYSTEMOWYCH W BAZIE CHMURY (Z PEŁNYM MAPOWANIEM REPOZYTORIÓW I ZALEŻNOŚCI)
+INSERT INTO nexus_cloud_modules (module_id, name, version, description, entry, accent, node, category, status, repo_url, dependencies)
 VALUES
-    ('nexus-bella-os', 'NEXUS BELLA OS', '4.2.0', 'Core sentient neural operating kernel and autonomous agent framework.', 'index.html', '#00E5FF', 'NODE #01', 'SYSTEM', 'OPERATIONAL'),
-    ('nexus-family', 'NEXUS FAMILY', '2.8.4', 'Multi-identity sovereign collective network, guardian permissions, and sync nodes.', 'index.html', '#A855F7', 'NODE #02', 'COMMUNICATION', 'OPERATIONAL'),
-    ('nexus-media-forge', 'NEXUS MEDIA FORGE', '3.1.0', 'High-throughput sensory generation, audio synth matrix, and media pipeline.', 'index.html', '#EC4899', 'NODE #03', 'CREATIVE', 'OPERATIONAL'),
-    ('nexusbook', 'NEXUSBOOK', '1.9.2', 'Immutable neural knowledge ledger, document indexing, and sovereign archive.', 'index.html', '#00D9A6', 'NODE #04', 'KNOWLEDGE', 'READY'),
-    ('nexus-dev-hub', 'NEXUS DEV HUB', '5.0.1', 'Engineering workbench, compiler pipelines, WASM sandboxes, and XNL visualizer.', 'index.html', '#3B82F6', 'NODE #05', 'DEVELOPER', 'RUNNING'),
-    ('nexus-worlds', 'NEXUS WORLDS', '1.4.0', 'Decentralized spatial environments, simulation topology, and virtual worlds cluster.', 'index.html', '#8B5CF6', 'NODE #06', 'SIMULATION', 'OPERATIONAL'),
-    ('kaisa-online', 'KAISA ONLINE', '2.1.0', 'KAISA Protocol ETERNIVERSE-DEV-CORE - Autonomous microservice lifecycle orchestrator & pipeline engine.', 'index.html', '#F59E0B', 'NODE #07', 'ORCHESTRATION', 'OPERATIONAL')
+    ('nexus-bella-os', 'NEXUS BELLA OS', '4.2.0', 'Core sentient neural operating kernel and autonomous agent framework.', 'index.html', '#00E5FF', 'NODE #01', 'SYSTEM', 'OPERATIONAL', 'https://github.com/danutamaciuszek11-cyber/NEXUS_DASCHBORDS.git', '[]'::jsonb),
+    ('nexus-family', 'NEXUS FAMILY COLLECTIVE', '2.8.4', 'Multi-identity sovereign collective network, guardian permissions, and sync nodes.', 'index.html', '#A855F7', 'NODE #02', 'COMMUNICATION', 'OPERATIONAL', 'https://github.com/danutamaciuszek11-cyber/NEXUS_FAMILI.git', '["nexus-bella-os"]'::jsonb),
+    ('nexus-media-forge', 'NEXUS MEDIA & CYBER RADIO', '3.1.0', 'Studio dźwięku syntetycznego, studio transmisji live, cyber-radiostacja i generacja multimediów.', 'index.html', '#EC4899', 'NODE #03', 'CREATIVE', 'OPERATIONAL', 'https://github.com/danutamaciuszek11-cyber/-NEXUS-MEDIA-Studio-D-wi-ku-Syntetycznego-Transmisji-Cyber-Radiostacji.git', '["nexus-bella-os"]'::jsonb),
+    ('nexusbook', 'NEXUSBOOK LEDGER', '1.9.2', 'Immutable neural knowledge ledger, document indexing, and sovereign archive.', 'index.html', '#00D9A6', 'NODE #04', 'KNOWLEDGE', 'READY', 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git', '["nexus-bella-os"]'::jsonb),
+    ('nexus-dev-hub', 'NEXUS DEV HUB (KUŹNIA 9 ŚWIATÓW)', '5.0.1', 'Kuźnia Forge 9 Światów – środowisko inżynieryjne kompilacji, kompozytor graficzny XNL, piaskownice WASM.', 'index.html', '#3B82F6', 'NODE #05', 'DEVELOPER', 'RUNNING', 'https://github.com/danutamaciuszek11-cyber/NEXUS-DEV-HUB-Ekosystem-9-wiat-w-Ku-nia-Forge-.git', '["nexus-bella-os", "nexus-rfc-02-gateway"]'::jsonb),
+    ('nexus-worlds', 'NEXUS WORLDS SIMULATION', '1.4.0', 'Decentralized spatial environments, simulation topology, and virtual worlds cluster.', 'index.html', '#8B5CF6', 'NODE #06', 'SIMULATION', 'OPERATIONAL', 'https://github.com/danutamaciuszek11-cyber/NEXUS_DASCHBORDS.git', '["nexus-bella-os", "nexus-dev-hub"]'::jsonb),
+    ('kaisa-online', 'KAISA ONLINE ORCHESTRATOR', '2.1.0', 'KAISA Protocol ETERNIVERSE-DEV-CORE - Autonomous microservice lifecycle orchestrator & pipeline engine.', 'index.html', '#F59E0B', 'NODE #07', 'ORCHESTRATION', 'OPERATIONAL', 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git', '["nexus-bella-os", "nexus-rfc-02-gateway"]'::jsonb),
+    ('nexus-constitution-governance', 'NEXUS DIGITAL CONSTITUTION', '1.0.0', 'Suwerenna cyfrowa konstytucja, ekosystem ładu cyfrowego, prawo maszynowe i etyka agentów AI w sieci Nexus.', 'index.html', '#10B981', 'NODE #08', 'GOVERNANCE & LAW', 'OPERATIONAL', 'https://github.com/danutamaciuszek11-cyber/-NEXUS-SOVEREIGN-DIGITAL-CONSTITUTION-GOVERNANCE-ECOSYSTEM.git', '["nexus-bella-os", "nexusbook"]'::jsonb),
+    ('nexus-academy', 'NEXUS ACADEMY (KNOWLEDGE TRANSFER)', '2.4.0', 'Silnik transferu wiedzy, cybernetyczne ścieżki certyfikacji, uniwersytet systemowy i edukacja architektów.', 'index.html', '#6366F1', 'NODE #09', 'EDUCATION & SKILLS', 'OPERATIONAL', 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git', '["nexusbook", "kaisa-online"]'::jsonb),
+    ('nexus-rfc-02-gateway', 'NEXUS RFC-02 PROTOCOL GATEWAY', '1.2.0', 'Standard protokołu synchronizacji międzyprojektowej RFC-02, rozproszona magistrala danych i brama komunikacji P2P.', 'index.html', '#06B6D4', 'NODE #10', 'NETWORKING & PROTOCOLS', 'OPERATIONAL', 'https://github.com/danutamaciuszek11-cyber/NEXUS-RFC-02-Inter-Project-Synchronization-Protocol-Gateway.git', '["nexus-bella-os", "nexus-family", "kaisa-online"]'::jsonb),
+    ('nexus-revolution', 'NEXUS REVOLUTION KERNEL', '3.0.0', 'Główny motor rewolucji suwerennościowej, rozproszony backend API, most neuronowy Gemini i łącznik Postgres Cloud SQL.', 'index.html', '#EF4444', 'NODE #11', 'DECENTRALIZATION & KERNEL', 'OPERATIONAL', 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git', '["nexus-bella-os", "nexus-rfc-02-gateway"]'::jsonb),
+    ('nexus-labs-rd', 'NEXUS LABS (SOVEREIGN R&D)', '1.5.0', 'Kolaboratywny organizm badawczo-rozwojowy (R&D), inkubator nowych technologii, eksperymenty kwantowe i AI.', 'index.html', '#F97316', 'NODE #12', 'EXPERIMENT & LABS', 'OPERATIONAL', 'https://github.com/danutamaciuszek11-cyber/NEXUS-LABS-Sovereign-R-D-Engine-Collaborative-Organism.git', '["nexus-dev-hub", "kaisa-online", "nexus-constitution-governance"]'::jsonb)
 ON CONFLICT (module_id) DO UPDATE SET
     name = EXCLUDED.name,
     version = EXCLUDED.version,
     description = EXCLUDED.description,
     status = EXCLUDED.status,
+    node = EXCLUDED.node,
+    category = EXCLUDED.category,
+    repo_url = EXCLUDED.repo_url,
+    dependencies = EXCLUDED.dependencies,
     updated_at = NOW();

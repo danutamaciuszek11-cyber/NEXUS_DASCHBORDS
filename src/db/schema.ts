@@ -45,6 +45,8 @@ export const cloudModules = pgTable('cloud_modules', {
   status: text('status').notNull(),
   accent: text('accent').notNull(),
   authorUid: text('author_uid'),
+  repoUrl: text('repo_url'),
+  dependencies: text('dependencies'), // JSON array string
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
 });

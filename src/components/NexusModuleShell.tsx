@@ -127,6 +127,22 @@ export const NexusModuleShell: React.FC<NexusModuleShellProps> = ({ module, onCl
               </button>
             </div>
 
+            {/* Git Repo Link if available */}
+            {module.repoUrl && (
+              <a
+                href={module.repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="hidden md:flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono-tech rounded bg-[#121827] border border-[#1E293B] text-[#38BDF8] hover:text-white hover:border-[#38BDF8] transition-colors"
+                title="Otwórz oficjalne repozytorium GitHub"
+              >
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                </svg>
+                <span>GIT REPO ↗</span>
+              </a>
+            )}
+
             {/* View Switchers */}
             <div className="flex bg-[#05070D] p-0.5 rounded border border-[#121827]">
               <button
@@ -178,7 +194,48 @@ export const NexusModuleShell: React.FC<NexusModuleShellProps> = ({ module, onCl
             )}
 
             {activeTab === 'manifest' && (
-              <div className="p-6 h-full overflow-y-auto font-mono-tech text-xs text-[#38BDF8]">
+              <div className="p-6 h-full overflow-y-auto font-mono-tech text-xs text-[#38BDF8] space-y-4">
+                {/* Visual Ecosystem & Dependency Panel */}
+                <div className="p-4 rounded-lg bg-[#0C101C] border border-[#1E293B]">
+                  <div className="text-[#00E5FF] font-bold text-xs uppercase tracking-wider mb-2 flex items-center gap-2">
+                    <span>⚡ ECOSYSTEM REPOSITORY & DEPENDENCY GRAPH</span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px]">
+                    <div>
+                      <span className="text-[#64748B] block mb-1">// OFFICIAL REPOSITORY:</span>
+                      {module.repoUrl ? (
+                        <a
+                          href={module.repoUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-[#38BDF8] underline hover:text-white break-all flex items-center gap-1"
+                        >
+                          {module.repoUrl}
+                        </a>
+                      ) : (
+                        <span className="text-[#94A3B8]">INTERNAL / PROPRIETARY CORE</span>
+                      )}
+                    </div>
+                    <div>
+                      <span className="text-[#64748B] block mb-1">// REQUIRED DEPENDENCIES:</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {module.dependencies && module.dependencies.length > 0 ? (
+                          module.dependencies.map((dep) => (
+                            <span
+                              key={dep}
+                              className="px-2 py-0.5 rounded bg-[#1A2234] text-[#00E5FF] border border-[#00E5FF]/30 font-mono-tech text-[10px]"
+                            >
+                              {dep}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-[#10B981]">BRAK ZALEŻNOŚCI (ROOT KERNEL)</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="text-[#64748B] mb-2">// NEXUS RUNTIME MODULE CONTRACT & CAPABILITY BRIDGE</div>
                 <pre className="bg-[#090C16] p-4 rounded border border-[#121827] text-[#00E5FF] overflow-x-auto">
                   {JSON.stringify(
@@ -187,6 +244,8 @@ export const NexusModuleShell: React.FC<NexusModuleShellProps> = ({ module, onCl
                       name: module.name,
                       version: module.version,
                       description: module.description,
+                      repoUrl: module.repoUrl || null,
+                      dependencies: module.dependencies || [],
                       entry: module.entry,
                       type: 'nexus-module',
                       ui: { mode: uiMode },

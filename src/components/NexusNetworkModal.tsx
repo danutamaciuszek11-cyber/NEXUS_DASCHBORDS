@@ -6,23 +6,34 @@ interface NexusNetworkModalProps {
   onClose: () => void;
 }
 
-const DEFAULT_NODES_DATA = [
-  { id: 'NODE #01', name: 'NEXUS BELLA CORE', region: 'eu-central (Warsaw)', latency: '4ms', status: 'ACTIVE', load: '18%' },
-  { id: 'NODE #02', name: 'FAMILY COLLECTIVE', region: 'eu-west (Frankfurt)', latency: '12ms', status: 'ACTIVE', load: '14%' },
-  { id: 'NODE #03', name: 'MEDIA SYNTH MATRIX', region: 'us-east (Virginia)', latency: '38ms', status: 'ACTIVE', load: '42%' },
-  { id: 'NODE #04', name: 'NEXUSBOOK LEDGER', region: 'eu-central (Warsaw)', latency: '3ms', status: 'ACTIVE', load: '9%' },
-  { id: 'NODE #05', name: 'DEV HUB WASM BOX', region: 'us-west (Oregon)', latency: '54ms', status: 'ACTIVE', load: '27%' },
-  { id: 'NODE #06', name: 'WORLDS SIMULATION', region: 'ap-northeast (Tokyo)', latency: '82ms', status: 'ACTIVE', load: '31%' },
-  { id: 'NODE #07', name: 'KAISA ORCHESTRATOR', region: 'eu-central (Warsaw)', latency: '5ms', status: 'ACTIVE', load: '22%' },
-  { id: 'NODE #08', name: 'P2P ZERO-TRUST EDGE', region: 'eu-north (Stockholm)', latency: '19ms', status: 'ACTIVE', load: '11%' },
-  { id: 'NODE #09', name: 'NEURAL ROUTER #09', region: 'eu-south (Milan)', latency: '24ms', status: 'ACTIVE', load: '15%' },
-  { id: 'NODE #10', name: 'CRYPTO VAULT MESH', region: 'sa-east (Sao Paulo)', latency: '98ms', status: 'ACTIVE', load: '8%' },
-  { id: 'NODE #11', name: 'AI INFERENCE CLOUD', region: 'us-central (Iowa)', latency: '45ms', status: 'ACTIVE', load: '49%' },
-  { id: 'NODE #12', name: 'ETERNIVERSE RELAY', region: 'ap-southeast (Singapore)', latency: '79ms', status: 'ACTIVE', load: '16%' },
+interface MeshNodeItem {
+  id: string;
+  name: string;
+  region: string;
+  latency: string;
+  status: string;
+  load: string;
+  repoUrl?: string;
+  dependencies?: string[];
+}
+
+const DEFAULT_NODES_DATA: MeshNodeItem[] = [
+  { id: 'NODE #01', name: 'NEXUS BELLA OS (ROOT KERNEL)', region: 'eu-central (Warsaw)', latency: '4ms', status: 'ACTIVE', load: '18%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS_DASCHBORDS.git', dependencies: [] },
+  { id: 'NODE #02', name: 'NEXUS FAMILY COLLECTIVE', region: 'eu-west (Frankfurt)', latency: '12ms', status: 'ACTIVE', load: '14%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS_FAMILI.git', dependencies: ['nexus-bella-os'] },
+  { id: 'NODE #03', name: 'NEXUS MEDIA & CYBER RADIO', region: 'us-east (Virginia)', latency: '38ms', status: 'ACTIVE', load: '42%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/-NEXUS-MEDIA-Studio-D-wi-ku-Syntetycznego-Transmisji-Cyber-Radiostacji.git', dependencies: ['nexus-bella-os'] },
+  { id: 'NODE #04', name: 'NEXUSBOOK LEDGER', region: 'eu-central (Warsaw)', latency: '3ms', status: 'ACTIVE', load: '9%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git', dependencies: ['nexus-bella-os'] },
+  { id: 'NODE #05', name: 'NEXUS DEV HUB (KUŹNIA 9 ŚWIATÓW)', region: 'us-west (Oregon)', latency: '54ms', status: 'ACTIVE', load: '27%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-DEV-HUB-Ekosystem-9-wiat-w-Ku-nia-Forge-.git', dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway'] },
+  { id: 'NODE #06', name: 'NEXUS WORLDS SIMULATION', region: 'ap-northeast (Tokyo)', latency: '82ms', status: 'ACTIVE', load: '31%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS_DASCHBORDS.git', dependencies: ['nexus-bella-os', 'nexus-dev-hub'] },
+  { id: 'NODE #07', name: 'KAISA ONLINE ORCHESTRATOR', region: 'eu-central (Warsaw)', latency: '5ms', status: 'ACTIVE', load: '22%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git', dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway'] },
+  { id: 'NODE #08', name: 'NEXUS DIGITAL CONSTITUTION', region: 'eu-north (Stockholm)', latency: '19ms', status: 'ACTIVE', load: '11%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/-NEXUS-SOVEREIGN-DIGITAL-CONSTITUTION-GOVERNANCE-ECOSYSTEM.git', dependencies: ['nexus-bella-os', 'nexusbook'] },
+  { id: 'NODE #09', name: 'NEXUS ACADEMY (KNOWLEDGE ENGINE)', region: 'eu-south (Milan)', latency: '24ms', status: 'ACTIVE', load: '15%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git', dependencies: ['nexusbook', 'kaisa-online'] },
+  { id: 'NODE #10', name: 'NEXUS RFC-02 PROTOCOL GATEWAY', region: 'sa-east (Sao Paulo)', latency: '98ms', status: 'ACTIVE', load: '8%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-RFC-02-Inter-Project-Synchronization-Protocol-Gateway.git', dependencies: ['nexus-bella-os', 'nexus-family', 'kaisa-online'] },
+  { id: 'NODE #11', name: 'NEXUS REVOLUTION KERNEL', region: 'us-central (Iowa)', latency: '45ms', status: 'ACTIVE', load: '49%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git', dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway'] },
+  { id: 'NODE #12', name: 'NEXUS LABS SOVEREIGN R&D', region: 'ap-southeast (Singapore)', latency: '79ms', status: 'ACTIVE', load: '16%', repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-LABS-Sovereign-R-D-Engine-Collaborative-Organism.git', dependencies: ['nexus-dev-hub', 'kaisa-online', 'nexus-constitution-governance'] },
 ];
 
 export const NexusNetworkModal: React.FC<NexusNetworkModalProps> = ({ onClose }) => {
-  const [nodes, setNodes] = useState(DEFAULT_NODES_DATA);
+  const [nodes, setNodes] = useState<MeshNodeItem[]>(DEFAULT_NODES_DATA);
   const [isCloudLive, setIsCloudLive] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -141,18 +152,46 @@ export const NexusNetworkModal: React.FC<NexusNetworkModalProps> = ({ onClose })
 
         {/* Nodes Grid */}
         <div className="flex-1 overflow-y-auto space-y-2 pr-1">
-          {NODES_DATA.map((node) => (
+          {nodes.map((node) => (
             <div
               key={node.id}
               className="p-3 rounded-lg bg-[#0C101C]/80 border border-[#121827] hover:border-[#00E5FF]/40 transition-colors flex items-center justify-between flex-wrap gap-2 text-xs"
             >
-              <div className="flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-[#00D9A6] shadow-[0_0_6px_#00D9A6]" />
-                <span className="text-[#00E5FF] font-bold">{node.id}</span>
-                <span className="text-white">{node.name}</span>
-                <span className="text-[10px] text-[#64748B]">{node.region}</span>
+              <div className="flex items-center gap-3 min-w-0">
+                <span className="w-2 h-2 rounded-full bg-[#00D9A6] shadow-[0_0_6px_#00D9A6] flex-shrink-0" />
+                <span className="text-[#00E5FF] font-bold flex-shrink-0">{node.id}</span>
+                <span className="text-white font-medium truncate">{node.name}</span>
+                <span className="text-[10px] text-[#64748B] hidden md:inline">{node.region}</span>
               </div>
-              <div className="flex items-center gap-4 text-[11px]">
+
+              <div className="flex items-center gap-3 text-[11px] flex-wrap">
+                {/* Dependencies pills */}
+                {node.dependencies && node.dependencies.length > 0 ? (
+                  <div className="flex items-center gap-1">
+                    {node.dependencies.map((d) => (
+                      <span key={d} className="px-1.5 py-0.5 rounded bg-[#1A2234] text-[9px] font-mono-tech text-[#38BDF8]">
+                        dep::{d.replace('nexus-', '').replace('-os', '')}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="px-1.5 py-0.5 rounded bg-[#00E5FF]/10 text-[9px] font-mono-tech text-[#00E5FF]">
+                    ROOT
+                  </span>
+                )}
+
+                {/* Git link */}
+                {node.repoUrl && (
+                  <a
+                    href={node.repoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-2 py-0.5 rounded bg-[#1E293B]/70 hover:bg-[#1E293B] text-[#38BDF8] hover:text-white text-[10px] font-mono-tech flex items-center gap-1 transition-colors"
+                  >
+                    GIT ↗
+                  </a>
+                )}
+
                 <span className="text-[#94A3B8]">PING: <strong className="text-[#00D9A6]">{node.latency}</strong></span>
                 <span className="text-[#94A3B8]">LOAD: <strong className="text-[#38BDF8]">{node.load}</strong></span>
                 <span className="px-2 py-0.5 rounded bg-[#00D9A6]/10 text-[#00D9A6] border border-[#00D9A6]/30 text-[10px]">

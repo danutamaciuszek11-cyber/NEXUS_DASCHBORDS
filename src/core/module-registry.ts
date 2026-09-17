@@ -2,9 +2,251 @@ import { NexusModule, ModuleStatus } from './types';
 import { storage } from './storage';
 import { eventBus } from './event-bus';
 import { ImageManager } from './image-manager';
-import { ZipManager } from './zip-manager';
 import { auth, syncModuleToCloud, deleteModuleFromCloud } from './firebase';
 import { CapabilityAPI } from './nexus-core';
+
+export const SYSTEM_ECOSYSTEM_MODULES: Omit<NexusModule, 'installedAt'>[] = [
+  {
+    id: 'nexus-bella-os',
+    name: 'NEXUS BELLA OS',
+    version: '4.2.0',
+    description: 'Core sentient neural operating kernel and autonomous agent framework.',
+    entry: 'index.html',
+    accent: '#00E5FF', // Cyan
+    status: 'OPERATIONAL',
+    node: 'NODE #01',
+    category: 'SYSTEM',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS_DASCHBORDS.git',
+    dependencies: [],
+    images: [
+      ImageManager.generateDefaultModuleSvg('NEXUS BELLA OS', '#00E5FF', 'NODE #01', 1),
+      ImageManager.generateDefaultModuleSvg('NEXUS BELLA OS', '#00E5FF', 'NODE #01', 2),
+      ImageManager.generateDefaultModuleSvg('NEXUS BELLA OS', '#00E5FF', 'NODE #01', 3),
+      ImageManager.generateDefaultModuleSvg('NEXUS BELLA OS', '#00E5FF', 'NODE #01', 4),
+    ],
+  },
+  {
+    id: 'nexus-family',
+    name: 'NEXUS FAMILY COLLECTIVE',
+    version: '2.8.4',
+    description: 'Multi-identity sovereign collective network, guardian permissions, and sync nodes.',
+    entry: 'index.html',
+    accent: '#A855F7', // Violet
+    status: 'OPERATIONAL',
+    node: 'NODE #02',
+    category: 'COMMUNICATION',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS_FAMILI.git',
+    dependencies: ['nexus-bella-os'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('NEXUS FAMILY', '#A855F7', 'NODE #02', 1),
+      ImageManager.generateDefaultModuleSvg('NEXUS FAMILY', '#A855F7', 'NODE #02', 2),
+      ImageManager.generateDefaultModuleSvg('NEXUS FAMILY', '#A855F7', 'NODE #02', 3),
+      ImageManager.generateDefaultModuleSvg('NEXUS FAMILY', '#A855F7', 'NODE #02', 4),
+    ],
+  },
+  {
+    id: 'nexus-media-forge',
+    name: 'NEXUS MEDIA & CYBER RADIO',
+    version: '3.1.0',
+    description: 'Studio dźwięku syntetycznego, studio transmisji na żywo, cyber-radiostacja i generacja multimediów sensorycznych.',
+    entry: 'index.html',
+    accent: '#EC4899', // Magenta
+    status: 'OPERATIONAL',
+    node: 'NODE #03',
+    category: 'CREATIVE',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/-NEXUS-MEDIA-Studio-D-wi-ku-Syntetycznego-Transmisji-Cyber-Radiostacji.git',
+    dependencies: ['nexus-bella-os'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('NEXUS MEDIA & CYBER RADIO', '#EC4899', 'NODE #03', 1),
+      ImageManager.generateDefaultModuleSvg('NEXUS MEDIA & CYBER RADIO', '#EC4899', 'NODE #03', 2),
+      ImageManager.generateDefaultModuleSvg('NEXUS MEDIA & CYBER RADIO', '#EC4899', 'NODE #03', 3),
+      ImageManager.generateDefaultModuleSvg('NEXUS MEDIA & CYBER RADIO', '#EC4899', 'NODE #03', 4),
+    ],
+  },
+  {
+    id: 'nexusbook',
+    name: 'NEXUSBOOK LEDGER',
+    version: '1.9.2',
+    description: 'Immutable neural knowledge ledger, document indexing, and sovereign archive.',
+    entry: 'index.html',
+    accent: '#00D9A6', // Green
+    status: 'READY',
+    node: 'NODE #04',
+    category: 'KNOWLEDGE',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git',
+    dependencies: ['nexus-bella-os'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('NEXUSBOOK', '#00D9A6', 'NODE #04', 1),
+      ImageManager.generateDefaultModuleSvg('NEXUSBOOK', '#00D9A6', 'NODE #04', 2),
+      ImageManager.generateDefaultModuleSvg('NEXUSBOOK', '#00D9A6', 'NODE #04', 3),
+      ImageManager.generateDefaultModuleSvg('NEXUSBOOK', '#00D9A6', 'NODE #04', 4),
+    ],
+  },
+  {
+    id: 'nexus-dev-hub',
+    name: 'NEXUS DEV HUB (KUŹNIA 9 ŚWIATÓW)',
+    version: '5.0.1',
+    description: 'Kuźnia Forge 9 Światów – środowisko inżynieryjne kompilacji, kompozytor graficzny XNL, piaskownice WASM.',
+    entry: 'index.html',
+    accent: '#3B82F6', // Blue
+    status: 'RUNNING',
+    node: 'NODE #05',
+    category: 'DEVELOPER',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-DEV-HUB-Ekosystem-9-wiat-w-Ku-nia-Forge-.git',
+    dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('NEXUS DEV HUB', '#3B82F6', 'NODE #05', 1),
+      ImageManager.generateDefaultModuleSvg('NEXUS DEV HUB', '#3B82F6', 'NODE #05', 2),
+      ImageManager.generateDefaultModuleSvg('NEXUS DEV HUB', '#3B82F6', 'NODE #05', 3),
+      ImageManager.generateDefaultModuleSvg('NEXUS DEV HUB', '#3B82F6', 'NODE #05', 4),
+    ],
+  },
+  {
+    id: 'nexus-worlds',
+    name: 'NEXUS WORLDS SIMULATION',
+    version: '1.4.0',
+    description: 'Decentralized spatial environments, simulation topology, and virtual worlds cluster.',
+    entry: 'index.html',
+    accent: '#8B5CF6', // Purple
+    status: 'OPERATIONAL',
+    node: 'NODE #06',
+    category: 'SIMULATION',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS_DASCHBORDS.git',
+    dependencies: ['nexus-bella-os', 'nexus-dev-hub'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('NEXUS WORLDS', '#8B5CF6', 'NODE #06', 1),
+      ImageManager.generateDefaultModuleSvg('NEXUS WORLDS', '#8B5CF6', 'NODE #06', 2),
+      ImageManager.generateDefaultModuleSvg('NEXUS WORLDS', '#8B5CF6', 'NODE #06', 3),
+      ImageManager.generateDefaultModuleSvg('NEXUS WORLDS', '#8B5CF6', 'NODE #06', 4),
+    ],
+  },
+  {
+    id: 'kaisa-online',
+    name: 'KAISA ONLINE ORCHESTRATOR',
+    version: '2.1.0',
+    description: 'KAISA Protocol ETERNIVERSE-DEV-CORE - Autonomous microservice lifecycle orchestrator & pipeline engine.',
+    entry: 'index.html',
+    accent: '#F59E0B', // Amber / Gold
+    status: 'OPERATIONAL',
+    node: 'NODE #07',
+    category: 'ORCHESTRATION',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git',
+    dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 1),
+      ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 2),
+      ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 3),
+      ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 4),
+    ],
+  },
+  {
+    id: 'nexus-constitution-governance',
+    name: 'NEXUS DIGITAL CONSTITUTION',
+    version: '1.0.0',
+    description: 'Suwerenna cyfrowa konstytucja, ekosystem ładu cyfrowego, prawo maszynowe i etyka agentów AI w sieci Nexus.',
+    entry: 'index.html',
+    accent: '#10B981', // Emerald Green
+    status: 'OPERATIONAL',
+    node: 'NODE #08',
+    category: 'GOVERNANCE & LAW',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/-NEXUS-SOVEREIGN-DIGITAL-CONSTITUTION-GOVERNANCE-ECOSYSTEM.git',
+    dependencies: ['nexus-bella-os', 'nexusbook'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('CONSTITUTION & GOVERNANCE', '#10B981', 'NODE #08', 1),
+      ImageManager.generateDefaultModuleSvg('CONSTITUTION & GOVERNANCE', '#10B981', 'NODE #08', 2),
+      ImageManager.generateDefaultModuleSvg('CONSTITUTION & GOVERNANCE', '#10B981', 'NODE #08', 3),
+      ImageManager.generateDefaultModuleSvg('CONSTITUTION & GOVERNANCE', '#10B981', 'NODE #08', 4),
+    ],
+  },
+  {
+    id: 'nexus-academy',
+    name: 'NEXUS ACADEMY (KNOWLEDGE TRANSFER)',
+    version: '2.4.0',
+    description: 'Silnik transferu wiedzy, cybernetyczne ścieżki certyfikacji, uniwersytet systemowy i edukacja architektów.',
+    entry: 'index.html',
+    accent: '#6366F1', // Indigo
+    status: 'OPERATIONAL',
+    node: 'NODE #09',
+    category: 'EDUCATION & SKILLS',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git',
+    dependencies: ['nexusbook', 'kaisa-online'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('NEXUS ACADEMY', '#6366F1', 'NODE #09', 1),
+      ImageManager.generateDefaultModuleSvg('NEXUS ACADEMY', '#6366F1', 'NODE #09', 2),
+      ImageManager.generateDefaultModuleSvg('NEXUS ACADEMY', '#6366F1', 'NODE #09', 3),
+      ImageManager.generateDefaultModuleSvg('NEXUS ACADEMY', '#6366F1', 'NODE #09', 4),
+    ],
+  },
+  {
+    id: 'nexus-rfc-02-gateway',
+    name: 'NEXUS RFC-02 PROTOCOL GATEWAY',
+    version: '1.2.0',
+    description: 'Standard protokołu synchronizacji międzyprojektowej RFC-02, rozproszona magistrala danych i brama komunikacji P2P.',
+    entry: 'index.html',
+    accent: '#06B6D4', // Electric Cyan
+    status: 'OPERATIONAL',
+    node: 'NODE #10',
+    category: 'NETWORKING & PROTOCOLS',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-RFC-02-Inter-Project-Synchronization-Protocol-Gateway.git',
+    dependencies: ['nexus-bella-os', 'nexus-family', 'kaisa-online'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #10', 1),
+      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #10', 2),
+      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #10', 3),
+      ImageManager.generateDefaultModuleSvg('RFC-02 GATEWAY', '#06B6D4', 'NODE #10', 4),
+    ],
+  },
+  {
+    id: 'nexus-revolution',
+    name: 'NEXUS REVOLUTION KERNEL',
+    version: '3.0.0',
+    description: 'Główny motor rewolucji suwerennościowej, rozproszony backend API, most neuronowy Gemini i łącznik Postgres Cloud SQL.',
+    entry: 'index.html',
+    accent: '#EF4444', // Crimson Red
+    status: 'OPERATIONAL',
+    node: 'NODE #11',
+    category: 'DECENTRALIZATION & KERNEL',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git',
+    dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('NEXUS REVOLUTION', '#EF4444', 'NODE #11', 1),
+      ImageManager.generateDefaultModuleSvg('NEXUS REVOLUTION', '#EF4444', 'NODE #11', 2),
+      ImageManager.generateDefaultModuleSvg('NEXUS REVOLUTION', '#EF4444', 'NODE #11', 3),
+      ImageManager.generateDefaultModuleSvg('NEXUS REVOLUTION', '#EF4444', 'NODE #11', 4),
+    ],
+  },
+  {
+    id: 'nexus-labs-rd',
+    name: 'NEXUS LABS (SOVEREIGN R&D)',
+    version: '1.5.0',
+    description: 'Kolaboratywny organizm badawczo-rozwojowy (R&D), inkubator nowych technologii, eksperymenty kwantowe i AI.',
+    entry: 'index.html',
+    accent: '#F97316', // Orange
+    status: 'OPERATIONAL',
+    node: 'NODE #12',
+    category: 'EXPERIMENT & LABS',
+    packageType: 'system',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-LABS-Sovereign-R-D-Engine-Collaborative-Organism.git',
+    dependencies: ['nexus-dev-hub', 'kaisa-online', 'nexus-constitution-governance'],
+    images: [
+      ImageManager.generateDefaultModuleSvg('NEXUS LABS R&D', '#F97316', 'NODE #12', 1),
+      ImageManager.generateDefaultModuleSvg('NEXUS LABS R&D', '#F97316', 'NODE #12', 2),
+      ImageManager.generateDefaultModuleSvg('NEXUS LABS R&D', '#F97316', 'NODE #12', 3),
+      ImageManager.generateDefaultModuleSvg('NEXUS LABS R&D', '#F97316', 'NODE #12', 4),
+    ],
+  },
+];
 
 export class ModuleRegistry {
   private modules: Map<string, NexusModule> = new Map();
@@ -17,12 +259,10 @@ export class ModuleRegistry {
     const storedModules = await storage.getAllModules();
     if (storedModules.length > 0) {
       storedModules.forEach((m) => this.modules.set(m.id, m));
-      // Auto-integrate KAISA ONLINE if not yet present in existing local DB
-      if (!this.modules.has('kaisa-online')) {
-        await this.registerKaisaModule();
-      }
+      // Auto-synchronize all 12 ecosystem repositories and dependencies into existing storage
+      await this.syncEcosystemRepositories();
     } else {
-      // Seed default native NEXUS modules inspired by NEXUS interfaces
+      // Seed all default native NEXUS modules with repoUrls & dependencies
       await this.seedDefaultModules();
     }
 
@@ -30,7 +270,7 @@ export class ModuleRegistry {
     eventBus.emit('registry:updated', this.getAll());
     eventBus.emit('log', {
       tag: 'REGISTRY',
-      message: `${this.modules.size} MODULES LOADED INTO RUNTIME`,
+      message: `${this.modules.size} MODULES LOADED (ECOSYSTEM REPOSITORIES & DEPENDENCY GRAPH READY)`,
       level: 'info',
     });
   }
@@ -41,6 +281,26 @@ export class ModuleRegistry {
 
   get(id: string): NexusModule | undefined {
     return this.modules.get(id);
+  }
+
+  /**
+   * Returns list of modules that the given module directly depends on.
+   */
+  getDependencies(moduleId: string): NexusModule[] {
+    const mod = this.modules.get(moduleId);
+    if (!mod || !mod.dependencies) return [];
+    return mod.dependencies
+      .map((depId) => this.modules.get(depId))
+      .filter((m): m is NexusModule => m !== undefined);
+  }
+
+  /**
+   * Returns list of modules that depend on the given module.
+   */
+  getDependents(moduleId: string): NexusModule[] {
+    return Array.from(this.modules.values()).filter(
+      (m) => m.dependencies && m.dependencies.includes(moduleId)
+    );
   }
 
   getCapabilityAPI(moduleId: string): CapabilityAPI {
@@ -155,7 +415,6 @@ export class ModuleRegistry {
     if (!mod) return false;
 
     if (mod.images.length >= 4) {
-      // Replace the last image if at maximum 4
       mod.images[mod.images.length - 1] = imageDataUrl;
     } else {
       mod.images.push(imageDataUrl);
@@ -221,9 +480,6 @@ export class ModuleRegistry {
     });
   }
 
-  /**
-   * Reset to native system modules
-   */
   async resetToDefaults(): Promise<void> {
     this.modules.clear();
     const existing = await storage.getAllModules();
@@ -234,138 +490,41 @@ export class ModuleRegistry {
     eventBus.emit('registry:updated', this.getAll());
   }
 
-  private async seedDefaultModules(): Promise<void> {
-    const defaultList: Omit<NexusModule, 'installedAt'>[] = [
-      {
-        id: 'nexus-bella-os',
-        name: 'NEXUS BELLA OS',
-        version: '4.2.0',
-        description: 'Core sentient neural operating kernel and autonomous agent framework.',
-        entry: 'index.html',
-        accent: '#00E5FF', // Cyan
-        status: 'OPERATIONAL',
-        node: 'NODE #01',
-        category: 'SYSTEM',
-        packageType: 'system',
-        images: [
-          ImageManager.generateDefaultModuleSvg('NEXUS BELLA OS', '#00E5FF', 'NODE #01', 1),
-          ImageManager.generateDefaultModuleSvg('NEXUS BELLA OS', '#00E5FF', 'NODE #01', 2),
-          ImageManager.generateDefaultModuleSvg('NEXUS BELLA OS', '#00E5FF', 'NODE #01', 3),
-          ImageManager.generateDefaultModuleSvg('NEXUS BELLA OS', '#00E5FF', 'NODE #01', 4),
-        ],
-      },
-      {
-        id: 'nexus-family',
-        name: 'NEXUS FAMILY',
-        version: '2.8.4',
-        description: 'Multi-identity sovereign collective network, guardian permissions, and sync nodes.',
-        entry: 'index.html',
-        accent: '#A855F7', // Violet
-        status: 'OPERATIONAL',
-        node: 'NODE #02',
-        category: 'COMMUNICATION',
-        packageType: 'system',
-        images: [
-          ImageManager.generateDefaultModuleSvg('NEXUS FAMILY', '#A855F7', 'NODE #02', 1),
-          ImageManager.generateDefaultModuleSvg('NEXUS FAMILY', '#A855F7', 'NODE #02', 2),
-          ImageManager.generateDefaultModuleSvg('NEXUS FAMILY', '#A855F7', 'NODE #02', 3),
-          ImageManager.generateDefaultModuleSvg('NEXUS FAMILY', '#A855F7', 'NODE #02', 4),
-        ],
-      },
-      {
-        id: 'nexus-media-forge',
-        name: 'NEXUS MEDIA FORGE',
-        version: '3.1.0',
-        description: 'High-throughput sensory generation, audio synth matrix, and media pipeline.',
-        entry: 'index.html',
-        accent: '#EC4899', // Magenta
-        status: 'OPERATIONAL',
-        node: 'NODE #03',
-        category: 'CREATIVE',
-        packageType: 'system',
-        images: [
-          ImageManager.generateDefaultModuleSvg('NEXUS MEDIA FORGE', '#EC4899', 'NODE #03', 1),
-          ImageManager.generateDefaultModuleSvg('NEXUS MEDIA FORGE', '#EC4899', 'NODE #03', 2),
-          ImageManager.generateDefaultModuleSvg('NEXUS MEDIA FORGE', '#EC4899', 'NODE #03', 3),
-          ImageManager.generateDefaultModuleSvg('NEXUS MEDIA FORGE', '#EC4899', 'NODE #03', 4),
-        ],
-      },
-      {
-        id: 'nexusbook',
-        name: 'NEXUSBOOK',
-        version: '1.9.2',
-        description: 'Immutable neural knowledge ledger, document indexing, and sovereign archive.',
-        entry: 'index.html',
-        accent: '#00D9A6', // Green
-        status: 'READY',
-        node: 'NODE #04',
-        category: 'KNOWLEDGE',
-        packageType: 'system',
-        images: [
-          ImageManager.generateDefaultModuleSvg('NEXUSBOOK', '#00D9A6', 'NODE #04', 1),
-          ImageManager.generateDefaultModuleSvg('NEXUSBOOK', '#00D9A6', 'NODE #04', 2),
-          ImageManager.generateDefaultModuleSvg('NEXUSBOOK', '#00D9A6', 'NODE #04', 3),
-          ImageManager.generateDefaultModuleSvg('NEXUSBOOK', '#00D9A6', 'NODE #04', 4),
-        ],
-      },
-      {
-        id: 'nexus-dev-hub',
-        name: 'NEXUS DEV HUB',
-        version: '5.0.1',
-        description: 'Engineering workbench, compiler pipelines, WASM sandboxes, and XNL visualizer.',
-        entry: 'index.html',
-        accent: '#3B82F6', // Blue
-        status: 'RUNNING',
-        node: 'NODE #05',
-        category: 'DEVELOPER',
-        packageType: 'system',
-        images: [
-          ImageManager.generateDefaultModuleSvg('NEXUS DEV HUB', '#3B82F6', 'NODE #05', 1),
-          ImageManager.generateDefaultModuleSvg('NEXUS DEV HUB', '#3B82F6', 'NODE #05', 2),
-          ImageManager.generateDefaultModuleSvg('NEXUS DEV HUB', '#3B82F6', 'NODE #05', 3),
-          ImageManager.generateDefaultModuleSvg('NEXUS DEV HUB', '#3B82F6', 'NODE #05', 4),
-        ],
-      },
-      {
-        id: 'nexus-worlds',
-        name: 'NEXUS WORLDS',
-        version: '1.4.0',
-        description: 'Decentralized spatial environments, simulation topology, and virtual worlds cluster.',
-        entry: 'index.html',
-        accent: '#8B5CF6', // Purple
-        status: 'OPERATIONAL',
-        node: 'NODE #06',
-        category: 'SIMULATION',
-        packageType: 'system',
-        images: [
-          ImageManager.generateDefaultModuleSvg('NEXUS WORLDS', '#8B5CF6', 'NODE #06', 1),
-          ImageManager.generateDefaultModuleSvg('NEXUS WORLDS', '#8B5CF6', 'NODE #06', 2),
-          ImageManager.generateDefaultModuleSvg('NEXUS WORLDS', '#8B5CF6', 'NODE #06', 3),
-          ImageManager.generateDefaultModuleSvg('NEXUS WORLDS', '#8B5CF6', 'NODE #06', 4),
-        ],
-      },
-      {
-        id: 'kaisa-online',
-        name: 'KAISA ONLINE',
-        version: '2.1.0',
-        description: 'KAISA Protocol ETERNIVERSE-DEV-CORE - Autonomous microservice lifecycle orchestrator & pipeline engine.',
-        entry: 'index.html',
-        accent: '#F59E0B', // Amber / Gold
-        status: 'OPERATIONAL',
-        node: 'NODE #07',
-        category: 'ORCHESTRATION',
-        packageType: 'system',
-        images: [
-          ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 1),
-          ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 2),
-          ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 3),
-          ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 4),
-        ],
-      },
-    ];
+  private async syncEcosystemRepositories(): Promise<void> {
+    let t = Date.now();
+    for (const ecoMod of SYSTEM_ECOSYSTEM_MODULES) {
+      const existing = this.modules.get(ecoMod.id);
+      if (!existing) {
+        t += 1000;
+        const newMod: NexusModule = {
+          ...ecoMod,
+          installedAt: t,
+          shellConfig: {
+            sandbox: 'allow-scripts allow-forms allow-same-origin',
+            isolationLevel: 'strict',
+            defaultMode: 'window',
+            allowAi: true,
+            allowStorage: true,
+            allowEvents: true,
+          },
+        };
+        this.modules.set(newMod.id, newMod);
+        await storage.saveModule(newMod);
+      } else {
+        // Update repo URL, dependencies, node, and category if updated in standard ecosystem
+        existing.repoUrl = ecoMod.repoUrl;
+        existing.dependencies = ecoMod.dependencies;
+        existing.node = ecoMod.node;
+        existing.category = ecoMod.category;
+        if (!existing.description) existing.description = ecoMod.description;
+        await storage.saveModule(existing);
+      }
+    }
+  }
 
-    let t = Date.now() - 100000;
-    for (const item of defaultList) {
+  private async seedDefaultModules(): Promise<void> {
+    let t = Date.now() - 120000;
+    for (const item of SYSTEM_ECOSYSTEM_MODULES) {
       t += 10000;
       const fullModule: NexusModule = {
         ...item,
@@ -382,43 +541,6 @@ export class ModuleRegistry {
       this.modules.set(fullModule.id, fullModule);
       await storage.saveModule(fullModule);
     }
-  }
-
-  private async registerKaisaModule(): Promise<void> {
-    const kaisaMod: NexusModule = {
-      id: 'kaisa-online',
-      name: 'KAISA ONLINE',
-      version: '2.1.0',
-      description: 'KAISA Protocol ETERNIVERSE-DEV-CORE - Autonomous microservice lifecycle orchestrator & pipeline engine.',
-      entry: 'index.html',
-      accent: '#F59E0B',
-      status: 'OPERATIONAL',
-      node: 'NODE #07',
-      category: 'ORCHESTRATION',
-      packageType: 'system',
-      installedAt: Date.now(),
-      images: [
-        ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 1),
-        ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 2),
-        ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 3),
-        ImageManager.generateDefaultModuleSvg('KAISA ONLINE', '#F59E0B', 'NODE #07', 4),
-      ],
-      shellConfig: {
-        sandbox: 'allow-scripts allow-forms allow-same-origin',
-        isolationLevel: 'strict',
-        defaultMode: 'window',
-        allowAi: true,
-        allowStorage: true,
-        allowEvents: true,
-      },
-    };
-    this.modules.set(kaisaMod.id, kaisaMod);
-    await storage.saveModule(kaisaMod);
-    eventBus.emit('log', {
-      tag: 'KAISA CORE',
-      message: 'KAISA ONLINE [ETERNIVERSE-DEV-CORE] LOADED INTO REGISTRY',
-      level: 'success',
-    });
   }
 }
 

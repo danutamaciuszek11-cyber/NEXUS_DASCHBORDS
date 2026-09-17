@@ -22,6 +22,8 @@ export interface NexusManifest {
   category?: string;
   author?: string;
   capabilities?: string[];
+  repoUrl?: string;
+  dependencies?: string[];
 }
 
 export interface ModuleShellConfig {
@@ -53,6 +55,8 @@ export interface NexusModule {
   blobUrl?: string; // Blob URL for iframe execution if HTML entry
   capabilities?: string[];
   shellConfig?: ModuleShellConfig;
+  repoUrl?: string;
+  dependencies?: string[];
 }
 
 export interface SystemLogEntry {

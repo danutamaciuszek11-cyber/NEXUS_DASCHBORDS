@@ -17,89 +17,120 @@ interface ProductItem {
   badge: string;
   status: 'ONLINE' | 'BETA' | 'DEPLOYING';
   url?: string;
+  repoUrl?: string;
+  dependencies?: string[];
 }
 
 const PRODUCTS_CATALOG: ProductItem[] = [
   {
     id: 'nexus-social',
-    name: 'NexusSocial',
+    name: 'Nexus Family Collective',
     category: 'COMMUNITY & NETWORK',
-    description: 'Decentralizowana sieć społecznościowa z szyfrowanymi kanałami i feedem agentów AI.',
+    description: 'Decentralizowana suwerenna sieć społecznościowa rodziny Bellas, szyfrowane kanały i synchronizacja węzłów.',
     icon: 'globe',
-    badge: 'POPULAR',
-    status: 'ONLINE'
+    badge: 'FAMILY',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS_FAMILI.git',
+    dependencies: ['nexus-bella-os']
   },
   {
     id: 'nexus-book',
-    name: 'NexusBook',
+    name: 'NexusBook Ledger',
     category: 'CONTENT & KNOWLEDGE',
-    description: 'Baza wiedzy, dokumentacja architektoniczna i interaktywne notatki całego ekosystemu.',
+    description: 'Baza wiedzy, immutable neural ledger, dokumentacja architektoniczna i suwerenne archiwum.',
     icon: 'book',
     badge: 'CORE',
-    status: 'ONLINE'
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git',
+    dependencies: ['nexus-bella-os']
   },
   {
     id: 'nexus-media',
-    name: 'Nexus Media',
+    name: 'Nexus Media & Cyber Radio',
     category: 'MEDIA & ASSETS',
-    description: 'Generator grafik, audio, wideo i zasobów cyfrowych napędzany przez NEXUS AI.',
+    description: 'Studio dźwięku syntetycznego, studio transmisji live, cyber-radiostacja i generacja multimediów.',
     icon: 'sparkles',
-    badge: 'AI',
-    status: 'ONLINE'
+    badge: 'MEDIA',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/-NEXUS-MEDIA-Studio-D-wi-ku-Syntetycznego-Transmisji-Cyber-Radiostacji.git',
+    dependencies: ['nexus-bella-os']
   },
   {
-    id: 'nexus-shop',
-    name: 'NexusShop',
-    category: 'COMMERCE & FULFILLMENT',
-    description: 'Sklep z produktami fizycznymi i cyfrowymi, integracja z NEXUSBrandVision i fulfillmentem.',
-    icon: 'shopping-bag',
-    badge: 'STORE',
-    status: 'ONLINE'
+    id: 'nexus-constitution-governance',
+    name: 'Nexus Digital Constitution',
+    category: 'DECENTRALIZATION',
+    description: 'Suwerenna cyfrowa konstytucja, ekosystem ładu cyfrowego, prawo maszynowe i etyka agentów AI.',
+    icon: 'shield',
+    badge: 'CONSTITUTION',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/-NEXUS-SOVEREIGN-DIGITAL-CONSTITUTION-GOVERNANCE-ECOSYSTEM.git',
+    dependencies: ['nexus-bella-os', 'nexusbook']
   },
   {
     id: 'nexus-academy',
-    name: 'Nexus Academy',
+    name: 'Nexus Academy Knowledge Engine',
     category: 'EDUCATION & SKILLS',
-    description: 'Interaktywne kursy programowania, architektury systemów i zarządzania agentami AI.',
+    description: 'Silnik transferu wiedzy, cybernetyczne ścieżki certyfikacji, uniwersytet systemowy i edukacja architektów.',
     icon: 'graduation-cap',
-    badge: 'LEARN',
-    status: 'ONLINE'
+    badge: 'ACADEMY',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-ACADEMY-Knowledge-Transfer-Engine.git',
+    dependencies: ['nexusbook', 'kaisa-online']
   },
   {
-    id: 'nexus-garden',
-    name: 'Nexus Garden',
+    id: 'nexus-rfc-02-gateway',
+    name: 'Nexus RFC-02 Protocol Gateway',
+    category: 'DECENTRALIZATION',
+    description: 'Standard protokołu synchronizacji międzyprojektowej RFC-02, rozproszona magistrala danych i brama P2P.',
+    icon: 'cpu',
+    badge: 'PROTOCOL',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-RFC-02-Inter-Project-Synchronization-Protocol-Gateway.git',
+    dependencies: ['nexus-bella-os', 'nexus-family', 'kaisa-online']
+  },
+  {
+    id: 'nexus-revolution',
+    name: 'Nexus Revolution Kernel & SQL',
+    category: 'DECENTRALIZATION',
+    description: 'Główny motor rewolucji suwerennościowej, rozproszony backend API, most neuronowy Gemini i łącznik Postgres Cloud SQL.',
+    icon: 'cpu',
+    badge: 'KERNEL',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git',
+    dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway']
+  },
+  {
+    id: 'nexus-labs-rd',
+    name: 'Nexus Labs Sovereign R&D',
     category: 'EXPERIMENT & LABS',
-    description: 'Piaskownica eksperymentalnych modułów, symulacji sieciowych i interaktywnych canvasów.',
+    description: 'Kolaboratywny organizm badawczo-rozwojowy (R&D), inkubator nowych technologii, eksperymenty kwantowe i AI.',
     icon: 'layers',
     badge: 'LABS',
-    status: 'BETA'
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-LABS-Sovereign-R-D-Engine-Collaborative-Organism.git',
+    dependencies: ['nexus-dev-hub', 'kaisa-online', 'nexus-constitution-governance']
   },
   {
-    id: 'nexus-web3',
-    name: 'Web3 / Blockchain',
-    category: 'DECENTRALIZATION',
-    description: 'Zarządzanie portfelem, smart kontraktami, tokenomiką i węzłami suwerennymi.',
-    icon: 'shield',
-    badge: 'SECURE',
-    status: 'ONLINE'
-  },
-  {
-    id: 'nexus-bridge',
-    name: 'Nexus Bridge',
-    category: 'INTEGRATION & API',
-    description: 'Uniwersalna brama API łącząca zewnętrzne usługi, webhooki i aplikacje zewnętrze.',
-    icon: 'cpu',
-    badge: 'GATEWAY',
-    status: 'ONLINE'
+    id: 'nexus-dev-hub',
+    name: 'Nexus Dev Hub (Kuźnia 9 Światów)',
+    category: 'EDUCATION & SKILLS',
+    description: 'Kuźnia Forge 9 Światów – środowisko inżynieryjne kompilacji, kompozytor graficzny XNL, piaskownice WASM.',
+    icon: 'layers',
+    badge: 'FORGE',
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-DEV-HUB-Ekosystem-9-wiat-w-Ku-nia-Forge-.git',
+    dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway']
   },
   {
     id: 'kaisa-online',
-    name: 'KAISA Online',
+    name: 'KAISA Online Orchestrator',
     category: 'DECENTRALIZATION',
     description: 'KAISA Protocol ETERNIVERSE-DEV-CORE: Autonomiczny orkiestrator mikrousług, samonaprawiający się pipeline i zero-trust security fabric.',
     icon: 'cpu',
     badge: 'ORCHESTRATOR',
-    status: 'ONLINE'
+    status: 'ONLINE',
+    repoUrl: 'https://github.com/danutamaciuszek11-cyber/NEXUS-REVOLUTION.git',
+    dependencies: ['nexus-bella-os', 'nexus-rfc-02-gateway']
   }
 ];
 
@@ -224,18 +255,54 @@ export const NexusProductsView: React.FC<NexusProductsViewProps> = ({
               <h3 className="text-lg font-bold text-white tracking-wide mb-2 group-hover:text-[#A855F7] transition-colors">
                 {p.name}
               </h3>
-              <p className="text-sm text-[#94A3B8] leading-relaxed mb-6 font-sans">
+              <p className="text-sm text-[#94A3B8] leading-relaxed mb-4 font-sans">
                 {p.description}
               </p>
+
+              {/* Dependencies Badges */}
+              <div className="flex items-center gap-1.5 mb-5 flex-wrap">
+                {p.dependencies && p.dependencies.length > 0 ? (
+                  p.dependencies.map((dep) => (
+                    <span
+                      key={dep}
+                      className="px-2 py-0.5 rounded bg-[#121827] border border-[#1E293B] text-[10px] font-mono-tech text-[#94A3B8]"
+                      title={`Zależność: ${dep}`}
+                    >
+                      dep::{dep.replace('nexus-', '').replace('-os', '')}
+                    </span>
+                  ))
+                ) : (
+                  <span className="px-2 py-0.5 rounded bg-[#00E5FF]/10 border border-[#00E5FF]/20 text-[10px] font-mono-tech text-[#00E5FF]">
+                    ROOT_CORE
+                  </span>
+                )}
+              </div>
             </div>
 
-            <div className="pt-4 border-t border-[#121827] flex items-center justify-between">
-              <span className="text-[11px] font-mono-tech text-[#64748B]">
-                CLOUD INSTANCE
-              </span>
+            <div className="pt-4 border-t border-[#121827] flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-[11px] font-mono-tech text-[#64748B] hidden sm:inline">
+                  CLOUD INSTANCE
+                </span>
+                {p.repoUrl && (
+                  <a
+                    href={p.repoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="px-2 py-1 rounded bg-[#1E293B]/60 hover:bg-[#1E293B] text-[#38BDF8] hover:text-white text-[10px] font-mono-tech flex items-center gap-1 transition-colors"
+                    title="Otwórz oficjalne repozytorium GitHub"
+                  >
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                    </svg>
+                    <span>REPO</span>
+                  </a>
+                )}
+              </div>
               <button
                 onClick={() => handleLaunchProduct(p)}
-                className="px-3.5 py-1.5 rounded-lg bg-[#A855F7]/15 hover:bg-[#A855F7] border border-[#A855F7]/50 hover:border-[#A855F7] text-[#A855F7] hover:text-white text-xs font-mono-tech tracking-wider uppercase transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-3.5 py-1.5 rounded-lg bg-[#A855F7]/15 hover:bg-[#A855F7] border border-[#A855F7]/50 hover:border-[#A855F7] text-[#A855F7] hover:text-white text-xs font-mono-tech tracking-wider uppercase transition-all flex items-center gap-1.5 cursor-pointer flex-shrink-0"
               >
                 <span>URUCHOM</span>
                 <ExternalLink className="w-3.5 h-3.5" />
