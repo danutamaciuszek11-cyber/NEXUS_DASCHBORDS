@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // User profile and private modules / settings
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      match /modules/{moduleId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      
+      match /logs/{logId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+    
+    // System public / verified modules library
+    match /system_modules/{moduleId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}
