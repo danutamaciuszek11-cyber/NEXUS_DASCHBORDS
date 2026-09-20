@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Component } from 'react';
 import { Globe, BookOpen, ShoppingBag, GraduationCap, Sparkles, Shield, Cpu, ExternalLink, ArrowLeft, Search, Layers, Terminal } from 'lucide-react';
 import { eventBus } from '../core/event-bus';
 import { NexusBookApp } from './NexusBookApp';
@@ -190,6 +190,43 @@ const PRODUCTS_CATALOG: ProductItem[] = [
   }
 ];
 
+class NexusBookErrorBoundary extends Component {
+  state = { hasError: false, error: null as Error | null };
+  props!: { children: React.ReactNode };
+  setState!: (state: any) => void;
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('[NEXUSBOOK RUNTIME CAUGHT]', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-8 h-full min-h-[400px] flex flex-col items-center justify-center text-center bg-[#070913] text-[#E2E8F0] font-mono-tech">
+          <div className="w-16 h-16 rounded-2xl bg-[#FF3B5C]/15 border border-[#FF3B5C]/30 flex items-center justify-center text-[#FF3B5C] text-2xl mb-4">
+            ⚠️
+          </div>
+          <h3 className="text-base font-bold text-white mb-2 uppercase tracking-wider">STAN AWARYJNY KONTENERA NEXUSBOOK</h3>
+          <p className="text-xs text-[#94A3B8] max-w-lg mb-6 leading-relaxed">
+            {this.state.error?.message || 'Wystąpił błąd wykonania biblioteki. Zasoby centralnego kontenera zależności (Storage, Audio, Web3) pozostały nienaruszone.'}
+          </p>
+          <button
+            onClick={() => this.setState({ hasError: false, error: null })}
+            className="px-5 py-2.5 rounded-xl bg-[#00E5FF]/10 border border-[#00E5FF]/40 text-[#00E5FF] hover:bg-[#00E5FF]/20 text-xs font-bold uppercase tracking-wider cursor-pointer transition-all"
+          >
+            RESTARTUJ I ODCZYTAJ PAMIĘĆ PODRĘCZNĄ
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export const NexusProductsView: React.FC<NexusProductsViewProps> = ({
   onBackToGateway = () => {},
   onSwitchToTools = () => {},
@@ -245,7 +282,9 @@ export const NexusProductsView: React.FC<NexusProductsViewProps> = ({
           </div>
         </div>
         <div className="flex-1">
-          <NexusBookApp />
+          <NexusBookErrorBoundary>
+            <NexusBookApp />
+          </NexusBookErrorBoundary>
         </div>
       </div>
     );
@@ -329,12 +368,29 @@ export const NexusProductsView: React.FC<NexusProductsViewProps> = ({
         </div>
       </div>
 
+      {/* Central Dependency Container Live Telemetry */}
+      <div className="bg-[#090C16] border border-[#00E5FF]/20 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 text-xs font-mono-tech">
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#00E5FF] animate-pulse shadow-[0_0_8px_#00E5FF]" />
+          <span className="text-white font-bold tracking-wider uppercase">NEXUS DEPENDENCY CONTAINER:</span>
+          <span className="text-[#00D9A6]">ACTIVE // ZERO DUPLICATION FABRIC</span>
+        </div>
+        <div className="flex items-center gap-2 text-[11px] text-[#94A3B8]">
+          <span className="px-2 py-0.5 rounded bg-[#121827] border border-[#1E293B] text-[#00E5FF]">STORAGE::IDB+KV</span>
+          <span className="px-2 py-0.5 rounded bg-[#121827] border border-[#1E293B] text-[#EC4899]">AUDIO::SYNTH_FX</span>
+          <span className="px-2 py-0.5 rounded bg-[#121827] border border-[#1E293B] text-[#F59E0B]">WEB3::VIEM_BNB</span>
+          <span className="px-2 py-0.5 rounded bg-[#121827] border border-[#1E293B] text-[#A855F7]">AI::GEMINI_2.5</span>
+          <span className="px-2 py-0.5 rounded bg-[#121827] border border-[#1E293B] text-[#10B981]">DB::HYBRID_SYNC</span>
+        </div>
+      </div>
+
       {/* Products Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filteredProducts.map((p) => (
           <div
             key={p.id}
-            className="bg-[#090C16] border border-[#A855F7]/20 hover:border-[#A855F7]/60 rounded-xl p-5 flex flex-col justify-between transition-all duration-300 group hover:shadow-[0_0_20px_rgba(168,85,247,0.1)] relative overflow-hidden"
+            onClick={() => handleLaunchProduct(p)}
+            className="bg-[#090C16] border border-[#A855F7]/20 hover:border-[#A855F7]/60 rounded-xl p-5 flex flex-col justify-between transition-all duration-300 group hover:shadow-[0_0_20px_rgba(168,85,247,0.1)] relative overflow-hidden cursor-pointer"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-[#A855F7]/5 rounded-bl-full pointer-events-none group-hover:bg-[#A855F7]/10 transition-all" />
 

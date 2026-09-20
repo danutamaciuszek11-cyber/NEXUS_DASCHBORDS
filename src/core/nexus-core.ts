@@ -5,9 +5,11 @@ import { eventBus } from './event-bus';
 import { NexusModule, ModuleConflict } from './types';
 import { ImageManager } from './image-manager';
 import { auth, onAuthStateChanged, fetchUserModulesFromCloud } from './firebase';
+import { nexusContainer } from './dependency-container';
 
 export interface CapabilityAPI {
   moduleId: string;
+  container?: any;
   ai: {
     generateText: (prompt: string) => Promise<string>;
     generateImage?: (prompt: string) => Promise<string>;

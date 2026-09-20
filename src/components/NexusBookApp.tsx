@@ -788,7 +788,7 @@ export function NexusBookApp() {
       />
 
       {/* 2. System Header */}
-      <Header
+      <NexusBookHeader
         onSearchFocus={() => searchInputRef.current?.focus()}
         onRandomBookClick={handleRandomBook}
         onQuoteOfDayClick={() => setShowQuoteOfDay(true)}

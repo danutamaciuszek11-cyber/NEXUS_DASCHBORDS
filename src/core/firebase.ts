@@ -3,6 +3,8 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
   User,
@@ -24,10 +26,40 @@ import { eventBus } from './event-bus';
 export const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export { onAuthStateChanged };
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId || '(default)');
+export const db = getFirestore(app, (firebaseConfig as any).firestoreDatabaseId || '(default)');
 export const googleProvider = new GoogleAuthProvider();
 
-export async function loginWithGoogle(): Promise<User | null> {
+export interface AuthResult {
+  user?: User;
+  error?: { friendly: string; technical: string };
+}
+
+export interface NexusAuthDiagnosticsData {
+  provider: string;
+  initialized: string;
+  configStatus: string;
+  projectId: string;
+  currentUser: string;
+  authState: string;
+  lastEvent: string;
+  lastError?: { friendly: string; technical: string } | null;
+}
+
+export function getAuthDiagnostics(): NexusAuthDiagnosticsData {
+  const current = auth.currentUser;
+  return {
+    provider: 'FIREBASE_AUTH / GOOGLE_IDENTITY',
+    initialized: 'OPERATIONAL',
+    configStatus: (firebaseConfig as any)?.projectId ? 'OK' : 'MISSING_PROJECT',
+    projectId: (firebaseConfig as any)?.projectId || 'nexus-sovereign',
+    currentUser: current?.email || 'UNAUTHENTICATED',
+    authState: current ? 'AUTHENTICATED' : 'ANONYMOUS',
+    lastEvent: 'SESSION_READY',
+    lastError: null,
+  };
+}
+
+export async function loginWithGoogle(): Promise<AuthResult> {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     eventBus.emit('log', {
@@ -35,14 +67,57 @@ export async function loginWithGoogle(): Promise<User | null> {
       message: `USER IDENTIFIED: ${result.user.email}`,
       level: 'success',
     });
-    return result.user;
+    return { user: result.user };
   } catch (err: any) {
     eventBus.emit('log', {
       tag: 'AUTH ERROR',
       message: err.message || 'Google Auth aborted',
       level: 'error',
     });
-    throw err;
+    return {
+      error: {
+        friendly: 'Błąd sesji Google Auth.',
+        technical: err.message || 'google_popup_exception',
+      }
+    };
+  }
+}
+
+export async function signInWithEmail(email: string, pass: string): Promise<AuthResult> {
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    eventBus.emit('log', {
+      tag: 'AUTH',
+      message: `USER LOGGED IN VIA EMAIL: ${cred.user.email}`,
+      level: 'success',
+    });
+    return { user: cred.user };
+  } catch (err: any) {
+    return {
+      error: {
+        friendly: 'Niepoprawne dane logowania lub brak konta w systemie.',
+        technical: err.message || 'auth/invalid-credential',
+      }
+    };
+  }
+}
+
+export async function signUpWithEmail(email: string, pass: string): Promise<AuthResult> {
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    eventBus.emit('log', {
+      tag: 'AUTH',
+      message: `NEW NODE USER REGISTERED: ${cred.user.email}`,
+      level: 'success',
+    });
+    return { user: cred.user };
+  } catch (err: any) {
+    return {
+      error: {
+        friendly: 'Rejestracja nie powiodła się. Sprawdź poprawność adresu email.',
+        technical: err.message || 'auth/email-already-in-use',
+      }
+    };
   }
 }
 
