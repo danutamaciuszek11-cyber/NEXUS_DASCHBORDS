@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Globe, BookOpen, ShoppingBag, GraduationCap, Sparkles, Shield, Cpu, ExternalLink, ArrowLeft, Search, Layers, Terminal } from 'lucide-react';
 import { eventBus } from '../core/event-bus';
+import { NexusBookApp } from './NexusBookApp';
 
 interface NexusProductsViewProps {
   onBackToGateway: () => void;
@@ -194,6 +195,7 @@ export const NexusProductsView: React.FC<NexusProductsViewProps> = ({
   onSwitchToTools = () => {},
   onLaunchModule,
 }) => {
+  const [activeUserSubView, setActiveUserSubView] = useState<'catalog' | 'nexusbook'>('catalog');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [activeCloudProduct, setActiveCloudProduct] = useState<ProductItem | null>(null);
@@ -213,12 +215,41 @@ export const NexusProductsView: React.FC<NexusProductsViewProps> = ({
       message: `INITIALIZING CLOUD SERVICE: [${p.name.toUpperCase()}]`,
       level: 'success',
     });
+
+    if (p.id === 'nexus-book') {
+      setActiveUserSubView('nexusbook');
+      return;
+    }
+
     if (onLaunchModule) {
       onLaunchModule(p.id);
     } else {
       setActiveCloudProduct(p);
     }
   };
+
+  if (activeUserSubView === 'nexusbook') {
+    return (
+      <div className="w-full flex-1 flex flex-col bg-[#070913]">
+        <div className="bg-[#090b14]/90 border-b border-[#00E5FF]/20 px-4 py-2 flex items-center justify-between">
+          <button
+            onClick={() => setActiveUserSubView('catalog')}
+            className="px-3 py-1.5 rounded-lg bg-[#090C16] hover:bg-[#121827] border border-[#00E5FF]/30 text-[#00E5FF] text-xs font-mono-tech flex items-center gap-2 cursor-pointer transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>POWRÓT DO KATALOGU USŁUG (BRAMA 01)</span>
+          </button>
+          <div className="text-xs font-mono-tech text-[#00E5FF] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#00E5FF] animate-pulse" />
+            BRAMA 01: UŻYTKOWNIK // NEXUSBOOK LEDGER &amp; SOVEREIGN LIBRARY
+          </div>
+        </div>
+        <div className="flex-1">
+          <NexusBookApp />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 w-full flex flex-col gap-6">
@@ -243,7 +274,21 @@ export const NexusProductsView: React.FC<NexusProductsViewProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 bg-[#05070D] p-1 rounded-lg border border-[#1A2234]">
+            <button
+              onClick={() => setActiveUserSubView('catalog')}
+              className="px-3 py-1 rounded text-xs font-mono-tech bg-[#A855F7]/20 text-[#A855F7] border border-[#A855F7]/40 shadow cursor-pointer transition-colors"
+            >
+              KATALOG USŁUG
+            </button>
+            <button
+              onClick={() => setActiveUserSubView('nexusbook')}
+              className="px-3 py-1 rounded text-xs font-mono-tech text-[#94A3B8] hover:text-[#00E5FF] cursor-pointer transition-colors"
+            >
+              NEXUSBOOK LEDGER
+            </button>
+          </div>
           <button
             onClick={onSwitchToTools}
             className="px-3.5 py-1.5 rounded-lg bg-[#00E5FF]/10 hover:bg-[#00E5FF]/20 border border-[#00E5FF]/40 text-[#00E5FF] text-xs font-mono-tech tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer"
