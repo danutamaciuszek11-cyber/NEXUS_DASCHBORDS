@@ -41,14 +41,24 @@ export const NexusFamilyView: React.FC<NexusFamilyViewProps> = ({
             <span>POWRÓT DO GATEWAY</span>
           </button>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="w-2.5 h-2.5 rounded-full bg-[#A855F7] shadow-[0_0_12px_#A855F7]" />
               <h2 className="text-xl md:text-2xl font-bold text-white tracking-wider uppercase font-sans">
-                NEXUS FAMILY & BELLAS CORE
+                RODZINA NEXUS & BELLAS CORE
               </h2>
+              <a
+                href="https://github.com/danutamaciuszek11-cyber/NEXUS_FAMILI.git"
+                target="_blank"
+                rel="noreferrer"
+                className="px-2.5 py-1 rounded bg-[#121827] border border-[#A855F7]/40 text-[#A855F7] hover:text-white text-[11px] font-mono-tech flex items-center gap-1.5 transition-colors"
+                title="Oficjalne repozytorium NEXUS_FAMILI"
+              >
+                <GitBranch className="w-3 h-3 text-[#A855F7]" />
+                <span>NEXUS_FAMILI.git ↗</span>
+              </a>
             </div>
             <p className="text-xs font-mono-tech text-[#94A3B8] mt-0.5">
-              Strefa Architektów oraz Chroniony Silnik Infrastrukturalny Bellas Core
+              Strefa Architektów oraz Chroniony Silnik Infrastrukturalny Bellas Core // BRAMA 03: WSPÓŁTWORZĘ
             </p>
           </div>
         </div>

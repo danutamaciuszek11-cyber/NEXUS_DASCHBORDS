@@ -198,7 +198,7 @@ export const NexusGateway: React.FC<NexusGatewayProps> = ({
               // WSPÓŁTWORZĘ
             </div>
             <h3 className="text-2xl md:text-3xl font-bold text-white tracking-wide mb-2 group-hover:text-[#A855F7] transition-colors">
-              NEXUS FAMILY
+              RODZINA NEXUS
             </h3>
             <p className="text-[#94A3B8] text-sm leading-relaxed mb-6 font-sans">
               „Przestrzeń dla architektów i współtwórców NEXUSA.”
@@ -207,13 +207,13 @@ export const NexusGateway: React.FC<NexusGatewayProps> = ({
             <div className="space-y-2 mb-8 text-xs font-mono-tech text-[#CBD5E1]">
               <div className="flex items-center gap-2 bg-[#0C101C] p-2.5 rounded-lg border border-[#1A2234]">
                 <Shield className="w-4 h-4 text-[#A855F7]" />
-                <span>NEXUS CORE & Bella OS</span>
+                <span>NEXUS CORE i Bella OS</span>
               </div>
               <div className="flex items-center gap-2 bg-[#0C101C] p-2.5 rounded-lg border border-[#1A2234]">
                 <Sparkles className="w-4 h-4 text-[#00E5FF]" />
-                <span>Protokoły, Bridge & Governance</span>
+                <span>Protokoły, Most i zarządzanie</span>
               </div>
-              <div className="text-[11px] text-[#64748B] pt-1">
+              <div className="text-[11px] text-[#64748B] pt-1 leading-relaxed">
                 Rozwój architektury, infrastruktury i bezpieczeństwa systemu.
               </div>
             </div>
@@ -224,13 +224,22 @@ export const NexusGateway: React.FC<NexusGatewayProps> = ({
               onClick={onSelectFamily}
               className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#A855F7] to-[#7928CA] hover:opacity-95 text-white font-bold text-sm tracking-wider uppercase transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_35px_rgba(168,85,247,0.7)]"
             >
-              <span>WEJDŹ DO FAMILY</span>
+              <span>WEJDŹ DO RODZINY</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
-            <p className="text-[11px] text-[#64748B] font-mono-tech text-center mt-2 leading-tight">
-              Współtwórz fundamenty całego ekosystemu.
-            </p>
+            <div className="flex items-center justify-between text-[10px] font-mono-tech text-[#64748B] pt-1">
+              <span>CANONICAL MONOREPO</span>
+              <a
+                href="https://github.com/danutamaciuszek11-cyber/NEXUS_FAMILI.git"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[#A855F7] hover:text-white underline flex items-center gap-1"
+                title="Oficjalne repozytorium NEXUS_FAMILI"
+              >
+                NEXUS_FAMILI.git ↗
+              </a>
+            </div>
           </div>
         </motion.div>
 
