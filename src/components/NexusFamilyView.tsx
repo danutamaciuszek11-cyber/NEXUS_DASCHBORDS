@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Shield, Cpu, Zap, Terminal, Layers, ArrowLeft, ExternalLink, Code2, Lock, GitBranch, Server, Activity, Users, Compass, Globe, Radio, Database, HardDrive, CheckCircle2 } from 'lucide-react';
 import { eventBus } from '../core/event-bus';
 import { nexusCore, NexusCoreState } from '../core/nexus-core';
+import { NexusFamilyPortal } from '../family/App';
 
 interface NexusFamilyViewProps {
   onBackToGateway: () => void;
@@ -82,7 +83,7 @@ export const NexusFamilyView: React.FC<NexusFamilyViewProps> = ({
       {/* Main Pillars Navigation */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
         {[
-          { id: 'ARCHITECTS', label: '🏛️ NEXUS FAMILY — ARCHITECTS', desc: 'Mapa, Projekty, Misje & Brotherhood', color: '#A855F7' },
+          { id: 'ARCHITECTS', label: '🏛️ PORTAL ARCHITEKTÓW (NEXUS_FAMILI)', desc: '16 Widoków, Brotherhood, Core Visualizer & AI Council', color: '#A855F7' },
           { id: 'BELLAS_CORE', label: '⚙️ BELLAS CORE ENGINE', desc: 'AI Kernels, Runtime, ZIP & Bridge', color: '#00E5FF' },
           { id: 'STATE_BELLA', label: '📊 STATE BELLA & METRICS', desc: 'Stan Systemu i Telemetria', color: '#00D9A6' },
           { id: 'COMMS', label: '💬 PRZESTRZEŃ KOMUNIKACJI', desc: 'Kanały Architektów i Koordynacja', color: '#FF3B5C' },
@@ -113,153 +114,10 @@ export const NexusFamilyView: React.FC<NexusFamilyViewProps> = ({
         })}
       </div>
 
-      {/* SECTION 1: NEXUS FAMILY — ARCHITECTS */}
+      {/* SECTION 1: NEXUS FAMILY — FULL OPERATIONAL PORTAL (NEXUS_FAMILI.git) */}
       {activeMainTab === 'ARCHITECTS' && (
-        <div className="space-y-6">
-          {/* Sub-tabs for Architects */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#121827]">
-            {[
-              { id: 'MAP', label: 'Mapa Rodziny' },
-              { id: 'PROJECTS', label: 'Projekty' },
-              { id: 'MISSIONS', label: 'Misje' },
-              { id: 'BROTHERHOOD', label: 'Brotherhood' },
-              { id: 'CATALOG', label: 'Katalog Architektów' },
-              { id: 'COLLAB', label: 'Współpraca' },
-            ].map((st) => (
-              <button
-                key={st.id}
-                onClick={() => setArchitectSubTab(st.id as any)}
-                className={`px-3.5 py-2 rounded-lg text-xs font-mono-tech uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
-                  architectSubTab === st.id
-                    ? 'bg-[#A855F7] text-white font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)]'
-                    : 'bg-[#090C16] hover:bg-[#121827] text-[#94A3B8] border border-[#1A2234]'
-                }`}
-              >
-                {st.id === 'MAP' && '🌐 '}
-                {st.id === 'PROJECTS' && '📁 '}
-                {st.id === 'MISSIONS' && '🎯 '}
-                {st.id === 'BROTHERHOOD' && '🛡️ '}
-                {st.id === 'CATALOG' && '👥 '}
-                {st.id === 'COLLAB' && '🤝 '}
-                {st.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="bg-[#090C16] border border-[#A855F7]/30 rounded-2xl p-6 relative overflow-hidden">
-            {architectSubTab === 'MAP' && (
-              <div className="space-y-4">
-                <div className="text-xs font-mono-tech text-[#A855F7] uppercase tracking-widest">// MAPA RODZINY & TOPOLOGIA WĘZŁÓW</div>
-                <h3 className="text-xl font-bold text-white">Globalna Topologia Ekosystemu Nexus</h3>
-                <p className="text-sm text-[#94A3B8]">
-                  Wizualizacja powiązań między węzłami regionalnymi, instancjami Nexus Core oraz agentami Bella rozproszonymi w sieci Mesh.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                  <div className="bg-[#05070D] p-4 rounded-xl border border-[#1A2234]">
-                    <div className="text-xs font-mono-tech text-[#00E5FF] mb-1">NODE ALPHA // EUROPE</div>
-                    <div className="text-xs text-[#94A3B8]">Status: Synchronizowany // Latency: 12ms</div>
-                  </div>
-                  <div className="bg-[#05070D] p-4 rounded-xl border border-[#1A2234]">
-                    <div className="text-xs font-mono-tech text-[#00D9A6] mb-1">NODE BETA // AMERICAS</div>
-                    <div className="text-xs text-[#94A3B8]">Status: Online // Latency: 45ms</div>
-                  </div>
-                  <div className="bg-[#05070D] p-4 rounded-xl border border-[#1A2234]">
-                    <div className="text-xs font-mono-tech text-[#A855F7] mb-1">NODE GAMMA // ASIA PACIFIC</div>
-                    <div className="text-xs text-[#94A3B8]">Status: Standby // Latency: 88ms</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {architectSubTab === 'PROJECTS' && (
-              <div className="space-y-4">
-                <div className="text-xs font-mono-tech text-[#A855F7] uppercase tracking-widest">// PROJEKTY ARCHITEKTONICZNE</div>
-                <h3 className="text-xl font-bold text-white">Aktywne Inicjatywy Systemowe</h3>
-                <div className="space-y-3 pt-2">
-                  <div className="p-4 bg-[#05070D] rounded-xl border border-[#1A2234] flex items-center justify-between">
-                    <div>
-                      <div className="text-sm font-bold text-white">Nexus Brand Vision & Madzia Shop Integration</div>
-                      <div className="text-xs text-[#94A3B8]">Automatyczna materializacja assetów na produkty fizyczne (print-on-demand).</div>
-                    </div>
-                    <span className="px-2.5 py-1 rounded bg-[#00D9A6]/10 border border-[#00D9A6]/30 text-[#00D9A6] text-xs font-mono-tech">ACTIVE (92%)</span>
-                  </div>
-                  <div className="p-4 bg-[#05070D] rounded-xl border border-[#1A2234] flex items-center justify-between">
-                    <div>
-                      <div className="text-sm font-bold text-white">Bella OS Autonomous Voice Agent</div>
-                      <div className="text-xs text-[#94A3B8]">Rozszerzenie interfejsu głosowego w czasie rzeczywistym z modelem Gemini Live.</div>
-                    </div>
-                    <span className="px-2.5 py-1 rounded bg-[#00E5FF]/10 border border-[#00E5FF]/30 text-[#00E5FF] text-xs font-mono-tech">DEVELOPMENT</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {architectSubTab === 'MISSIONS' && (
-              <div className="space-y-4">
-                <div className="text-xs font-mono-tech text-[#A855F7] uppercase tracking-widest">// MISJE I CELE STRATEGICZNE</div>
-                <h3 className="text-xl font-bold text-white">Aktualny Sprint Architektów</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                  <div className="p-4 bg-[#05070D] rounded-xl border border-[#1A2234]">
-                    <div className="text-xs font-mono-tech text-[#A855F7] mb-1">MISSION #01 // ZERO LATENCY MESH</div>
-                    <p className="text-xs text-[#94A3B8]">Optymalizacja czasu ładowania paczek ZIP w lokalnym węźle poniżej 150ms.</p>
-                  </div>
-                  <div className="p-4 bg-[#05070D] rounded-xl border border-[#1A2234]">
-                    <div className="text-xs font-mono-tech text-[#00E5FF] mb-1">MISSION #02 // SECURE RBAC AUDIT</div>
-                    <p className="text-xs text-[#94A3B8]">Weryfikacja reguł bezpieczeństwa dla ról użytkowników i administratorów.</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {architectSubTab === 'BROTHERHOOD' && (
-              <div className="space-y-4">
-                <div className="text-xs font-mono-tech text-[#A855F7] uppercase tracking-widest">// BROTHERHOOD & TRUST RING</div>
-                <h3 className="text-xl font-bold text-white">Krąg Zaufania i Spójności</h3>
-                <p className="text-sm text-[#94A3B8]">
-                  Wspólnota architektów oparta na kryptograficznym potwierdzaniu tożsamości kluczy sesyjnych oraz wspólnym kodeksie etycznym kodu.
-                </p>
-                <div className="flex gap-3 pt-2">
-                  <button onClick={() => handleProtocolAction('Brotherhood Ping')} className="px-4 py-2 rounded-xl bg-[#A855F7] text-white text-xs font-mono-tech uppercase cursor-pointer">
-                    WYŚLIJ PING DO BROTHERHOOD
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {architectSubTab === 'CATALOG' && (
-              <div className="space-y-4">
-                <div className="text-xs font-mono-tech text-[#A855F7] uppercase tracking-widest">// KATALOG ARCHITEKTÓW</div>
-                <h3 className="text-xl font-bold text-white">Autoryzowani Twórcy Systemu</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                  <div className="p-3.5 bg-[#05070D] rounded-xl border border-[#1A2234]">
-                    <div className="text-xs font-bold text-white">Maciej (Architekt Nexus)</div>
-                    <div className="text-[11px] text-[#A855F7] font-mono-tech">Główny Wizjoner & Core Systems</div>
-                  </div>
-                  <div className="p-3.5 bg-[#05070D] rounded-xl border border-[#1A2234]">
-                    <div className="text-xs font-bold text-white">Eterion (AI Architect)</div>
-                    <div className="text-[11px] text-[#00E5FF] font-mono-tech">Strategia i Logika Agentowa</div>
-                  </div>
-                  <div className="p-3.5 bg-[#05070D] rounded-xl border border-[#1A2234]">
-                    <div className="text-xs font-bold text-white">Bella (OS Intelligence)</div>
-                    <div className="text-[11px] text-[#00D9A6] font-mono-tech">Orkiestracja i Runtime</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {architectSubTab === 'COLLAB' && (
-              <div className="space-y-4">
-                <div className="text-xs font-mono-tech text-[#A855F7] uppercase tracking-widest">// WSPÓŁPRACA I PROTOKOŁY ZESPOŁOWE</div>
-                <h3 className="text-xl font-bold text-white">Kanały Współtworzenia</h3>
-                <p className="text-sm text-[#94A3B8]">
-                  Wszystkie zmiany w architekturze wymagają dwustronnego zatwierdzenia przez protokół Consensus.
-                </p>
-                <button onClick={() => handleProtocolAction('Consensus Check')} className="px-4 py-2 rounded-xl bg-[#A855F7] text-white text-xs font-mono-tech uppercase cursor-pointer">
-                  SPRAWDŹ STAN KONSENSUSU
-                </button>
-              </div>
-            )}
-          </div>
+        <div className="w-full rounded-2xl overflow-hidden border border-[#A855F7]/40 bg-[#06080E] shadow-[0_0_60px_rgba(168,85,247,0.15)] min-h-[880px]">
+          <NexusFamilyPortal />
         </div>
       )}
 
