@@ -18,6 +18,7 @@ import { NexusFamilyView } from './components/NexusFamilyView';
 import { NexusNetworkModal } from './components/NexusNetworkModal';
 import { NexusAboutModal } from './components/NexusAboutModal';
 import { BellasCompanion } from './components/BellasCompanion';
+import { NexusBookApp } from './components/NexusBookApp';
 import { XnlParser } from './xnl/xnl-parser';
 import { NexusZipManager } from './core/zip/zip-manager';
 import { ImageManager } from './core/image-manager';
@@ -25,7 +26,7 @@ import { auth, loginWithGoogle, logoutUser } from './core/firebase';
 import { User, onAuthStateChanged } from 'firebase/auth';
 
 export type SortCriteria = 'Name' | 'Status' | 'Install Date';
-export type ViewMode = 'gateway' | 'user' | 'creator' | 'family';
+export type ViewMode = 'gateway' | 'user' | 'creator' | 'family' | 'nexusbook';
 
 export default function App() {
   const [coreState, setCoreState] = useState<NexusCoreState>(nexusCore.getState());
@@ -242,7 +243,8 @@ export default function App() {
   const isUser = viewMode === 'user';
   const isCreator = viewMode === 'creator';
   const isFamily = viewMode === 'family';
-  const activeAccentColor = isCreator ? '#00D9A6' : isFamily ? '#A855F7' : '#00E5FF';
+  const isNexusBook = viewMode === 'nexusbook';
+  const activeAccentColor = isCreator ? '#00D9A6' : isFamily ? '#A855F7' : isNexusBook ? '#F59E0B' : '#00E5FF';
 
   return (
     <div className="min-h-screen bg-[#05070D] text-[#E2E8F0] nexus-grid-bg flex flex-col selection:bg-[#00E5FF]/20 selection:text-[#00E5FF]">
@@ -251,8 +253,8 @@ export default function App() {
         id="nexus-top-header"
         className="w-full bg-[#070A12]/95 border-b sticky top-0 z-40 backdrop-blur-md transition-colors duration-300"
         style={{
-          borderBottomColor: isFamily ? 'rgba(168, 85, 247, 0.3)' : isCreator ? 'rgba(0, 217, 166, 0.3)' : 'rgba(0, 229, 255, 0.3)',
-          boxShadow: `0 4px 20px ${isFamily ? 'rgba(168, 85, 247, 0.08)' : isCreator ? 'rgba(0, 217, 166, 0.08)' : 'rgba(0, 229, 255, 0.08)'}`,
+          borderBottomColor: isFamily ? 'rgba(168, 85, 247, 0.3)' : isCreator ? 'rgba(0, 217, 166, 0.3)' : isNexusBook ? 'rgba(245, 158, 11, 0.3)' : 'rgba(0, 229, 255, 0.3)',
+          boxShadow: `0 4px 20px ${isFamily ? 'rgba(168, 85, 247, 0.08)' : isCreator ? 'rgba(0, 217, 166, 0.08)' : isNexusBook ? 'rgba(245, 158, 11, 0.08)' : 'rgba(0, 229, 255, 0.08)'}`,
         }}
       >
         <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
@@ -267,11 +269,11 @@ export default function App() {
                 }}
               />
               <h1 className="text-xl md:text-2xl font-bold tracking-[0.18em] text-white font-sans uppercase">
-                NEXUS <span className="text-xs font-mono-tech ml-1 px-1.5 py-0.5 rounded" style={{ color: activeAccentColor, backgroundColor: isFamily ? 'rgba(168,85,247,0.1)' : isCreator ? 'rgba(0,217,166,0.1)' : 'rgba(0,229,255,0.1)' }}>{isFamily ? 'FAMILY' : isCreator ? 'CREATOR' : isUser ? 'USER' : 'CORE'}</span>
+                NEXUS <span className="text-xs font-mono-tech ml-1 px-1.5 py-0.5 rounded" style={{ color: activeAccentColor, backgroundColor: isFamily ? 'rgba(168,85,247,0.1)' : isCreator ? 'rgba(0,217,166,0.1)' : isNexusBook ? 'rgba(245,158,11,0.1)' : 'rgba(0,229,255,0.1)' }}>{isFamily ? 'FAMILY' : isCreator ? 'CREATOR' : isUser ? 'USER' : isNexusBook ? 'NEXUSBOOK' : 'CORE'}</span>
               </h1>
             </div>
 
-            {/* Navigation Bar: CORE / USER / CREATOR / FAMILY / NETWORK / ABOUT */}
+            {/* Navigation Bar: CORE / USER / CREATOR / FAMILY / NEXUSBOOK / NETWORK / ABOUT */}
             <nav className="flex items-center gap-1.5 text-xs font-mono-tech">
               <button
                 onClick={() => setViewMode('gateway')}
@@ -292,6 +294,16 @@ export default function App() {
                 }`}
               >
                 USER
+              </button>
+              <button
+                onClick={() => setViewMode('nexusbook')}
+                className={`px-2.5 py-1 rounded transition-all cursor-pointer uppercase ${
+                  viewMode === 'nexusbook'
+                    ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.3)]'
+                    : 'text-[#94A3B8] hover:text-amber-400 hover:bg-[#090C16]'
+                }`}
+              >
+                NEXUSBOOK
               </button>
               <button
                 onClick={() => setViewMode('creator')}
@@ -474,9 +486,12 @@ export default function App() {
             onBackToGateway={() => setViewMode('gateway')}
             onSwitchToTools={() => setViewMode('creator')}
             onLaunchModule={(prodId) => {
+              if (prodId === 'nexus-book' || prodId === 'nexusbook') {
+                setViewMode('nexusbook');
+                return;
+              }
               let targetMod = modules.find((m) => m.id === prodId);
               if (!targetMod) {
-                if (prodId === 'nexus-book') targetMod = modules.find((m) => m.id === 'nexusbook');
                 if (prodId === 'nexus-media') targetMod = modules.find((m) => m.id === 'nexus-media-forge');
                 if (prodId === 'kaisa-online') targetMod = modules.find((m) => m.id === 'kaisa-online');
                 if (prodId === 'nexus-social') targetMod = modules.find((m) => m.id === 'nexus-family');
@@ -486,6 +501,26 @@ export default function App() {
               }
             }}
           />
+        )}
+
+        {viewMode === 'nexusbook' && (
+          <div className="w-full flex-1 flex flex-col bg-[#070913]">
+            <div className="bg-[#090b14]/90 border-b border-amber-500/20 px-4 py-2 flex items-center justify-between">
+              <button
+                onClick={() => setViewMode('gateway')}
+                className="px-3 py-1.5 rounded bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/40 text-amber-300 text-xs font-mono-tech flex items-center gap-2 cursor-pointer transition-colors"
+              >
+                <span>← POWRÓT DO GATEWAY</span>
+              </button>
+              <div className="text-xs font-mono-tech text-amber-400 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                NEXUSBOOK LEDGER & SOVEREIGN LIBRARY // LIVE ACTIVE
+              </div>
+            </div>
+            <div className="flex-1">
+              <NexusBookApp />
+            </div>
+          </div>
         )}
 
         {viewMode === 'family' && (

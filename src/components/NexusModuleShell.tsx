@@ -2,6 +2,7 @@ import React, { useState, Component } from 'react';
 import { NexusModule } from '../core/types';
 import { ModuleLoader } from '../core/module-loader';
 import { moduleRegistry } from '../core/module-registry';
+import { NexusBookApp } from './NexusBookApp';
 
 interface NexusModuleShellProps {
   module: NexusModule | null;
@@ -185,12 +186,18 @@ export const NexusModuleShell: React.FC<NexusModuleShellProps> = ({ module, onCl
         <div className="flex-1 bg-[#05070D] relative overflow-hidden">
           <ModuleErrorBoundary accent={accent}>
             {activeTab === 'app' && (
-              <iframe
-                src={entryUrl}
-                title={module.name}
-                sandbox={module.shellConfig?.sandbox || "allow-scripts allow-forms allow-same-origin"}
-                className="w-full h-full border-0 bg-[#070A12]"
-              />
+              module.id === 'nexusbook' ? (
+                <div className="w-full h-full overflow-y-auto">
+                  <NexusBookApp />
+                </div>
+              ) : (
+                <iframe
+                  src={entryUrl}
+                  title={module.name}
+                  sandbox={module.shellConfig?.sandbox || "allow-scripts allow-forms allow-same-origin"}
+                  className="w-full h-full border-0 bg-[#070A12]"
+                />
+              )
             )}
 
             {activeTab === 'manifest' && (
