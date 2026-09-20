@@ -1,0 +1,105 @@
+# ==============================================================================
+# QUANTUM CI/CD PIPELINE - SYNAPSE MESH DEPLOYMENT MANIFEST
+# ==============================================================================
+# Target Engine: Nexus OS Quantum CI/CD Pipeline v3.1.0
+# Cluster Target: 24 Synapse Mesh Micro-Nodes
+# Guardian Authority: Architekt Wiktor & Eterion
+# ==============================================================================
+
+apiVersion: quantum.nexus/v1alpha1
+kind: ClusterDeploymentManifest
+metadata:
+  name: synapse-mesh-24-nodes
+  cluster: nexus-quantum-cluster
+  version: 1.0.0-QUANTUM
+  guardian: "Architekt Wiktor & Eterion"
+  timestamp: "2026-09-16T01:45:00Z"
+
+spec:
+  replicas: 24
+  strategy:
+    type: RollingUpdate
+    maxSurge: 4
+    maxUnavailable: 0
+
+  template:
+    metadata:
+      labels:
+        app: synapse-mesh-node
+        tier: microservice-mesh
+        nxl-security: immutable-shield-active
+    spec:
+      containers:
+        - name: synapse-mesh-worker
+          image: nexus-os/synapse-mesh:1.0.0-QUANTUM
+          imagePullPolicy: IfNotPresent
+
+          # --------------------------------------------------------------------
+          # Environment Variable Injection
+          # --------------------------------------------------------------------
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+            - name: HOST
+              value: "0.0.0.0"
+            - name: SYNAPSE_MESH_INSTANCES
+              value: "24"
+            - name: NXL_ENFORCE_IMMUTABILITY
+              value: "true"
+            - name: NXL_IMMUTABILITY_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-quantum-secrets
+                  key: NXL_IMMUTABILITY_KEY
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-quantum-secrets
+                  key: GEMINI_API_KEY
+            - name: BSC_RPC_URL
+              value: "https://bsc-dataseed.binance.org/"
+            - name: REDIS_URL
+              value: "redis://nexus-redis-cache:6379"
+
+          # --------------------------------------------------------------------
+          # Resource Allocation & Limits for 24 Nodes
+          # --------------------------------------------------------------------
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          # --------------------------------------------------------------------
+          # Health & Readiness Probes
+          # --------------------------------------------------------------------
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /api/cluster/telemetry
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+  # ----------------------------------------------------------------------------
+  # Security Context & Immutability Shield
+  # ----------------------------------------------------------------------------
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop:
+        - ALL
