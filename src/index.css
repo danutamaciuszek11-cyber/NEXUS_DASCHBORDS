@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --nexus-bg-root: #05070D;
+    --nexus-bg-base: #070A12;
+    --nexus-bg-surface: #090C16;
+    --nexus-bg-card: #0C101C;
+    --nexus-bg-card-hover: #101522;
+    --nexus-bg-elevated: #121827;
+
+    --nexus-cyan: #00E5FF;
+    --nexus-cyan-glow: rgba(0, 229, 255, 0.25);
+    --nexus-violet: #A855F7;
+    --nexus-violet-glow: rgba(168, 85, 247, 0.25);
+
+    --nexus-blue: #3B82F6;
+    --nexus-magenta: #EC4899;
+    --nexus-green: #00D9A6;
+    --nexus-red: #FF3B5C;
+  }
+
+  body {
+    background-color: var(--nexus-bg-root);
+    color: #E2E8F0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Custom Tech Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #05070D;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1A2234;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00E5FF;
+  }
+}
+
+/* Subtle Technical Grid Lines */
+.nexus-grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(0, 229, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 229, 255, 0.02) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* NEXUS Card Styling */
+.nexus-card {
+  background: #0C101C;
+  border: 1px solid rgba(0, 229, 255, 0.14);
+  border-radius: 12px;
+  position: relative;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+.nexus-card:hover {
+  border-color: rgba(0, 229, 255, 0.5);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.12), 0 0 24px rgba(168, 85, 247, 0.06);
+}
+
+/* Empty Module Installation Slot */
+.nexus-slot-card {
+  background: rgba(12, 16, 28, 0.4);
+  border: 1px dashed rgba(0, 229, 255, 0.28);
+  border-radius: 12px;
+  transition: all 0.22s ease;
+}
+
+.nexus-slot-card:hover, .nexus-slot-card.dragover {
+  border-color: #00E5FF;
+  background: rgba(0, 229, 255, 0.04);
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.2);
+}
+
+/* Technical Monospace Elements */
+.font-mono-tech {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Status Badge Pulse */
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.9); }
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.active {
+  animation: status-pulse 2.2s infinite ease-in-out;
+}

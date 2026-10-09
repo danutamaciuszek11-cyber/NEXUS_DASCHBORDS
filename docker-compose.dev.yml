@@ -1,0 +1,73 @@
+# ==============================================================================
+# NEXUS OS — DEVELOPMENT DOCKER COMPOSE CONFIGURATION
+# ==============================================================================
+# Usage: docker compose -f docker-compose.dev.yml up --build
+# Features: Hot-reloading source mounts, Vite dev server, Redis dev instance
+# ==============================================================================
+
+version: '3.8'
+
+networks:
+  nexus-dev-network:
+    name: nexus-dev-network
+    driver: bridge
+
+volumes:
+  nexus-dev-redis-data:
+    name: nexus-dev-redis-data
+    driver: local
+
+services:
+  # ----------------------------------------------------------------------------
+  # Nexus OS Development Core Service
+  # ----------------------------------------------------------------------------
+  nexus-os-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: nexus_os_dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - HOST=0.0.0.0
+      - REDIS_URL=redis://nexus-redis-dev:6379
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/dist
+    depends_on:
+      nexus-redis-dev:
+        condition: service_healthy
+    networks:
+      - nexus-dev-network
+    command: npm run dev
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ----------------------------------------------------------------------------
+  # Redis Cache Development Instance
+  # ----------------------------------------------------------------------------
+  nexus-redis-dev:
+    image: redis:7-alpine
+    container_name: nexus_redis_dev
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - nexus-dev-redis-data:/data
+    networks:
+      - nexus-dev-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

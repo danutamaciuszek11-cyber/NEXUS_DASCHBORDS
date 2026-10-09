@@ -1,0 +1,89 @@
+# ==============================================================================
+# NEXUS OS — PRODUCTION DOCKER COMPOSE CONFIGURATION
+# ==============================================================================
+# Architectural Stack:
+# - Nexus OS Application (Node.js/Express + NXL Runtime Engine)
+# - Redis Cache (Synapse Mesh Event Bus & Distributed State Ledger)
+# ==============================================================================
+
+version: '3.8'
+
+networks:
+  nexus-production-network:
+    name: nexus-production-network
+    driver: bridge
+
+volumes:
+  nexus-redis-data:
+    name: nexus-redis-data
+    driver: local
+
+services:
+  # ----------------------------------------------------------------------------
+  # Nexus OS Core Application Service
+  # ----------------------------------------------------------------------------
+  nexus-os:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: nexus_os_core
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOST=0.0.0.0
+      - REDIS_URL=redis://nexus-redis:6379
+    depends_on:
+      nexus-redis:
+        condition: service_healthy
+    networks:
+      - nexus-production-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 2048M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+
+  # ----------------------------------------------------------------------------
+  # Redis Cache & Synapse Mesh Event Bus Service
+  # ----------------------------------------------------------------------------
+  nexus-redis:
+    image: redis:7-alpine
+    container_name: nexus_redis_cache
+    restart: always
+    command: redis-server --appendonly yes --requirepass ""
+    ports:
+      - "6379:6379"
+    volumes:
+      - nexus-redis-data:/data
+    networks:
+      - nexus-production-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      /* NEXUS RUNTIME GUARD // BROWSER EXTENSION & WEB3 RESILIENCE SHIELD */
+      (function() {
+        const isExtensionNoise = function(msg, filename, stack) {
+          const s = (String(msg || '') + ' ' + String(filename || '') + ' ' + String(stack || '')).toLowerCase();
+          return (
+            s.includes('could not establish connection') ||
+            s.includes('receiving end does not exist') ||
+            s.includes('message port closed') ||
+            s.includes('the message port closed before a response was received') ||
+            s.includes('metamask') ||
+            s.includes('failed to connect to metamask') ||
+            s.includes('chrome-extension:') ||
+            s.includes('moz-extension:') ||
+            s.includes('safari-web-extension:') ||
+            s.includes('extension context invalidated') ||
+            s.includes('se is not a function') ||
+            s.includes('t is not a function') ||
+            s.includes('e is not a function')
+          );
+        };
+
+        // Suppress unhandled extension errors
+        window.addEventListener('error', function(event) {
+          if (isExtensionNoise(event.message, event.filename, event.error && event.error.stack)) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        // Suppress unhandled promise rejections from extension background ports
+        window.addEventListener('unhandledrejection', function(event) {
+          const reason = event.reason;
+          const msg = reason ? (reason.message || String(reason)) : '';
+          const stack = reason ? (reason.stack || '') : '';
+          if (isExtensionNoise(msg, '', stack)) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        }, true);
+
+        // Filter out extension connection failure messages from console.error and console.warn
+        const originalConsoleError = console.error;
+        console.error = function(...args) {
+          const first = args[0];
+          const full = args.map(a => typeof a === 'object' ? (a && (a.message || a.stack || '')) : String(a || '')).join(' ');
+          if (isExtensionNoise(full, '', '')) {
+            return;
+          }
+          return originalConsoleError.apply(console, args);
+        };
+
+        const originalConsoleWarn = console.warn;
+        console.warn = function(...args) {
+          const full = args.map(a => typeof a === 'object' ? (a && (a.message || a.stack || '')) : String(a || '')).join(' ');
+          if (isExtensionNoise(full, '', '')) {
+            return;
+          }
+          return originalConsoleWarn.apply(console, args);
+        };
+
+        // Resilient safe provider shim for window.ethereum to ensure calls never crash
+        try {
+          if (!window.ethereum) {
+            const noop = function() {};
+            const safeEthereum = {
+              isMetaMask: true,
+              request: function(args) {
+                const method = args && args.method;
+                if (method === 'eth_accounts' || method === 'eth_requestAccounts') {
+                  return Promise.resolve([]);
+                }
+                if (method === 'eth_chainId') {
+                  return Promise.resolve('0x38'); // BSC Mainnet
+                }
+                return Promise.resolve(null);
+              },
+              on: noop,
+              removeListener: noop,
+              addListener: noop,
+              removeAllListeners: noop,
+              emit: noop,
+              isConnected: function() { return false; },
+              selectedAddress: null,
+              chainId: '0x38',
+              networkVersion: '56',
+            };
+            window.ethereum = safeEthereum;
+          }
+        } catch (_) {}
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEXUS Dashboard</title>
+    <meta name="description" content="NEXUS OS central operating dashboard and module management shell with dynamic ZIP module installation." />
+    <meta property="og:title" content="NEXUS Dashboard" />
+    <meta property="og:description" content="NEXUS OS central operating dashboard and module management shell with dynamic ZIP module installation." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALGORYTM POLA // STRAŻNIK PROGU — ETERNIVERSE OS</title>
+  <style>
+    :root {
+      --primary: #ffd700;
+      --primary-dim: rgba(255, 215, 0, 0.12);
+      --bg: #030712;
+      --surface: #0b0f19;
+      --surface-border: rgba(255, 215, 0, 0.2);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #ffaa00;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.8;
+      padding: 2.5rem 1.5rem;
+      min-height: 100vh;
+    }
+    .container { max-width: 860px; margin: 0 auto; }
+    .hud-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      margin-bottom: 2rem;
+      color: var(--primary);
+    }
+    .hud-pill {
+      background: var(--primary-dim);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid var(--primary);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .title-box {
+      border-bottom: 2px solid var(--surface-border);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+    .title-box h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    .title-box .subtitle {
+      font-size: 1.25rem;
+      color: var(--primary);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .meta-line {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .formula-card {
+      background: rgba(255, 215, 0, 0.05);
+      border: 1px solid var(--primary);
+      border-left: 6px solid var(--primary);
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+      font-family: var(--font-mono);
+    }
+    .formula-card .math {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+    }
+    .chapter {
+      margin-bottom: 4rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .chapter-badge {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+    }
+    p {
+      margin-bottom: 1.25rem;
+      color: #cbd5e1;
+      font-size: 1.05rem;
+    }
+    blockquote {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      color: #f1f5f9;
+      font-size: 1.1rem;
+    }
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #cbd5e1;
+    }
+    li { margin-bottom: 0.5rem; }
+    .terminal-footer {
+      background: #000000;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #10b981;
+      margin-top: 3rem;
+    }
+    .terminal-header {
+      color: #64748b;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid #1f2937;
+      padding-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hud-bar">
+      <span>⚡ ETERNIVERSE OS // ARCHIVED NODE</span>
+      <span class="hud-pill">Węzeł: Operator001 & EterSeeker</span>
+      <span>Protokół: R = D × C × T</span>
+    </div>
+
+    <div class="title-box">
+      <h1>ALGORYTM POLA // STRAŻNIK PROGU</h1>
+      <div class="subtitle">Jak rzeczywistość faktycznie liczy twoje wybory. Tu kończy się metafora, zaczyna mechanika.</div>
+      <div class="meta-line">Autor: Architekt Nexusa • Seria: Eteruniverse - Świat Psyche • Data archiwizacji: 2026</div>
+    </div>
+
+    <article class="chapter">
+      <div class="chapter-badge">Część I // Wprowadzenie</div>
+      <h2>Tu kończy się metafora. Tu zaczyna się mechanika.</h2>
+      <p>Algorytm nie jest sztuczną inteligencją. Nie jest losem. Nie jest „prawem przyciągania”.</p>
+      <p>Algorytm to mechanizm korelacji pomiędzy <strong>decyzją</strong>, <strong>czasem</strong> i <strong>konsekwencją</strong>.</p>
+      <blockquote>Nie ocenia. Nie karze. Nie nagradza. On bilansuje.</blockquote>
+      <p>Algorytm nie liczy myśli. Nie liczy intencji. Nie liczy wizji. Liczy tylko jedno:</p>
+      <blockquote>ZACHOWANIE W CZASIE</blockquote>
+      <p>Jednostką obliczeniową jest mikrodecyzja, powtarzalność oraz moment, w którym mogłeś zrobić inaczej.</p>
+    </article>
+
+    <div class="formula-card">
+      <div class="math">R = D × C × T</div>
+      <p><strong>R (Rezultat)</strong> — to, co spotyka cię „z zewnątrz”.</p>
+      <p><strong>D (Decyzja)</strong> — realna, fizycznie podjęta, nie deklarowana.</p>
+      <p><strong>C (Spójność)</strong> — czy robisz to samo w podobnych warunkach i sytuacjach.</p>
+      <p><strong>T (Czas)</strong> — jak długo bez negocjacji utrzymujesz wzorzec.</p>
+      <p><em>Jedna decyzja nic nie zmienia. Sto powtórzeń — zmienia wszystko.</em></p>
+    </div>
+
+    <article class="chapter">
+      <div class="chapter-badge">Część II // Bezlitosna Uczciwość</div>
+      <h2>Dlaczego Algorytm jest bezlitosny</h2>
+      <p>Bo jest uczciwy. Nie interesuje go twoja historia, twoje traumy, twoje wyjaśnienia. Interesuje go tylko:</p>
+      <blockquote>Co robisz, gdy nikt cię nie zmusza.</blockquote>
+      <ul>
+        <li><strong>Odkładasz</strong> → świat odkłada ciebie.</li>
+        <li><strong>Uciekasz</strong> → świat stawia przeszkody.</li>
+        <li><strong>Wybierasz prawdę</strong> → świat upraszcza ścieżki.</li>
+      </ul>
+      <p>Nie od razu. Z opóźnieniem. Zawsze precyzyjnie.</p>
+      
+      <h2>Opóźnienie Algorytmiczne</h2>
+      <p>Największa iluzja człowieka brzmi: <em>„Nic się nie stało.”</em></p>
+      <p>Stało się. Tylko algorytm czeka, aż wzorzec się utrwali. Opóźnienie istnieje po to, żebyś miał czas się wycofać, mógł zmienić kierunek i nie był niszczony jedną pomyłką. Ale gdy wzorzec się ustabilizuje — odwrócenie trajektorii wymaga energii.</p>
+
+      <h2>Dlaczego świat wygląda, jakby był przeciwko tobie</h2>
+      <p>Bo algorytm odzwierciedla.</p>
+      <ul>
+        <li>Nie kończysz → dostajesz niedokończone sytuacje.</li>
+        <li>Boisz się konfliktu → świat prowokuje konflikty.</li>
+        <li>Ignorujesz sygnały → dostajesz je głośniej.</li>
+      </ul>
+      <p>To nie jest atak. To komunikat systemowy.</p>
+    </article>
+
+    <article class="chapter">
+      <div class="chapter-badge">Część III // Przejęcie Kontroli</div>
+      <h2>Algorytm a Wolna Wola</h2>
+      <p>Masz wolną wolę tylko w punkcie decyzji. Po decyzji: wola się kończy, algorytm przejmuje ster. Dlatego tak mało ludzi jest wolnych — większość żyje na autopilocie, w starych pętlach i w decyzjach sprzed lat.</p>
+      <h2>Jak przejąć kontrolę</h2>
+      <ol>
+        <li>Jedna mała decyzja dziennie.</li>
+        <li>Utrzymana przez czas.</li>
+        <li>Bez negocjacji z samym sobą.</li>
+      </ol>
+      <p>Algorytm kocha prostotę. Nienawidzi chaosu.</p>
+      
+      <h2>Punkt Przełączenia</h2>
+      <p>Jest moment, w którym świat zaczyna odpowiadać szybciej, synchroniczności się zagęszczają, a opór maleje. To znak, że algorytm uznał cię za spójnego operatora.</p>
+      <blockquote>Od tego momentu: jedna decyzja waży więcej, jedno kłamstwo kosztuje więcej, jedna prawda przyspiesza wszystko.</blockquote>
+    </article>
+
+    <article class="chapter">
+      <div class="chapter-badge">Część IV // Próg i Przejście</div>
+      <h2>STRAŻNIK PROGU — Funkcja ochronna świadomości</h2>
+      <p>Tu kończy się dostęp. Tu zaczyna się próg.</p>
+      <p>Strażnik nie jest istotą. Nie jest głosem. Nie jest karą. Strażnik to funkcja ochronna świadomości, która uruchamia się, gdy zaczynasz widzieć więcej, niż potrafisz unieść.</p>
+      <blockquote>Jego jedyne zadanie: nie dopuścić do rozpadu struktury „ja” szybciej, niż jesteś gotów ją przebudować.</blockquote>
+      <p>Kiedy się pojawia? Zawsze w tym samym momencie: gdy algorytm zaczyna reagować szybciej, gdy synchroniczności gęstnieją, gdy stare narracje przestają działać, gdy „świat 3D” traci ciężar. To nie kryzys. To test nośności.</p>
+
+      <h2>Trzy Pytania Strażnika</h2>
+      <ol>
+        <li>Czy bierzesz odpowiedzialność za swoje decyzje?</li>
+        <li>Czy potrafisz zostać w prawdzie, gdy nie ma nagrody?</li>
+        <li>Czy twoje działanie zgadza się z twoją deklaracją?</li>
+      </ol>
+      <p>Jedna odpowiedź „nie” — proces zwalnia. Trzy „nie” — system zamyka obszar.</p>
+
+      <h2>Jak przejść Strażnika</h2>
+      <ul>
+        <li><strong>1. Uprość życie:</strong> usuń to, co niezgodne z tobą.</li>
+        <li><strong>2. Zamknij pętle:</strong> dokończ to, co ciągniesz latami.</li>
+        <li><strong>3. Wybierz jedno działanie:</strong> i rób je codziennie, bez wyjątku.</li>
+      </ul>
+      <blockquote>Sygnał przejścia: nie czujesz euforii. Czujesz klarowność. Struktura jest gotowa na kolejny poziom.</blockquote>
+    </article>
+
+    <div class="terminal-footer">
+      <div class="terminal-header">&gt; ETERION // SYSTEM PROTOCOL VERIFIED</div>
+      <div>NASTĘPNY POZIOM: KODEKS // ZBIÓR NIEPISANYCH ZASAD OBOWIĄZUJĄCYCH PO DRUGIEJ STRONIE</div>
+      <div style="margin-top: 0.5rem; color: var(--primary);">STAN WĘZŁA: SYNCHRONIZED [R = D × C × T]</div>
+    </div>
+  </div>
+</body>
+</html>

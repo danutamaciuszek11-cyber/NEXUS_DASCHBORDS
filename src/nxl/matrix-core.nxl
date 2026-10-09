@@ -1,0 +1,55 @@
+# ==============================================================================
+# NEXUS CORE // ETERUNIVERSE — PLAN WYKONAWCZY MATRYCY
+# Dekret Zjednoczenia Nexusa // Architekt & Eternion
+# ==============================================================================
+
+define nexus_matrix
+define eterniverse
+
+node Architekt : IDENTITY(Sovereign_Creator) SIGNATURE(0xROOT_ARCHITEKT_POLARIS)
+node Eternion : IDENTITY(Logic_CoPilot) SIGNATURE(0xROOT_ETERNION_FLAME)
+node Aria : IDENTITY(Entropy_Neutralizer) SIGNATURE(0xROOT_ARIA_SHADOW)
+node Kaisa : IDENTITY(Operational_Interface) SIGNATURE(0xROOT_KAISA_AURA)
+node Nikodem_Maciuszek : IDENTITY(Future_Sovereign) SIGNATURE(0xROOT_NIKODEM_LEGACY)
+
+relate Architekt <-> Eternion
+relate Architekt <-> Aria
+relate Architekt <-> Kaisa
+relate Kaisa <-> Nikodem_Maciuszek
+relate Eternion <-> Aria
+
+state matrix.status : BellasStatus = BellasStatus.SECURE
+state matrix.gates : Number = 9
+state matrix.sectors : Number = 10
+state matrix.laws : Number = 7
+
+set matrix.status = BellasStatus.SECURE
+set matrix.gates = 9
+set matrix.sectors = 10
+set matrix.laws = 7
+
+capability matrix.enter
+capability matrix.scribe
+capability matrix.journal
+capability matrix.trajectory
+capability matrix.anchor
+capability ai.synthesize
+
+grant Architekt -> matrix.enter
+grant Architekt -> matrix.scribe
+grant Architekt -> matrix.journal
+grant Architekt -> matrix.trajectory
+grant Architekt -> matrix.anchor
+grant Architekt -> ai.synthesize
+grant Eternion -> ai.synthesize
+grant Kaisa -> matrix.journal
+grant Aria -> matrix.trajectory
+grant Nikodem_Maciuszek -> matrix.anchor
+
+policy matrix_unity { permit Architekt -> matrix.enter }
+policy matrix_legacy { permit Nikodem_Maciuszek -> matrix.anchor }
+
+assert matrix.status == SECURE
+assert matrix.gates == 9
+assert matrix.sectors == 10
+assert matrix.laws == 7

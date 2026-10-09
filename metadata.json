@@ -1,0 +1,6 @@
+{
+  "name": "NEXUS Dashboard",
+  "description": "NEXUS OS central operating dashboard and module management shell with dynamic ZIP module installation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

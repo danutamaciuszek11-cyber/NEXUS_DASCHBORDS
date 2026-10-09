@@ -1,0 +1,84 @@
+/* ==============================================================================
+ * NEXUS ATOMIC CSS - PHYSICAL CONSTANTS & IMMUTABLE DESIGN TOKENS
+ * ============================================================================== */
+
+:root {
+  /* Physical Constants & Void Base */
+  --nx-void: #050811;
+  --nx-void-deep: #020409;
+  --nx-surface: #0b1120;
+  --nx-surface-elevated: #111a2e;
+  
+  /* Glassmorphism & Borders */
+  --nx-glass-bg: rgba(11, 17, 32, 0.75);
+  --nx-glass-border: rgba(255, 255, 255, 0.08);
+  --nx-glass-hover: rgba(255, 255, 255, 0.12);
+
+  /* Quantum Luminescence Palette */
+  --nx-emerald: #10b981;
+  --nx-emerald-glow: rgba(16, 185, 129, 0.25);
+  
+  --nx-amber: #f59e0b;
+  --nx-amber-glow: rgba(245, 158, 11, 0.25);
+  
+  --nx-cyan: #06b6d4;
+  --nx-cyan-glow: rgba(6, 182, 212, 0.25);
+  
+  --nx-rose: #f43f5e;
+  --nx-rose-glow: rgba(244, 63, 94, 0.25);
+
+  /* Typography Stack */
+  --nx-font-code: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  --nx-font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* Glassmorphic Panel Container */
+.nx-panel {
+  background: var(--nx-glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--nx-glass-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.2s ease-in-out;
+}
+
+.nx-panel:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* Luminescent Status Badges */
+.nx-badge-emerald {
+  background: var(--nx-emerald-glow);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.nx-badge-amber {
+  background: var(--nx-amber-glow);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.nx-badge-cyan {
+  background: var(--nx-cyan-glow);
+  color: #22d3ee;
+  border: 1px solid rgba(6, 182, 212, 0.4);
+}
+
+.nx-badge-rose {
+  background: var(--nx-rose-glow);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.4);
+}
+
+/* Pulse Animation for Heartbeat Indicators */
+@keyframes nx-pulse {
+  0% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.15); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+
+.nx-heartbeat {
+  animation: nx-pulse 2s infinite ease-in-out;
+}

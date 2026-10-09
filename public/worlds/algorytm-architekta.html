@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALGORYTM ARCHITEKTA — ETERNIVERSE OS</title>
+  <style>
+    :root {
+      --primary: #10b981;
+      --primary-dim: rgba(16, 185, 129, 0.15);
+      --bg: #020806;
+      --surface: #071712;
+      --surface-border: rgba(16, 185, 129, 0.25);
+      --text: #f0fdf4;
+      --text-muted: #86efac;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.8;
+      padding: 2.5rem 1.5rem;
+      min-height: 100vh;
+    }
+    .container { max-width: 860px; margin: 0 auto; }
+    .hud-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      margin-bottom: 2rem;
+      color: var(--primary);
+    }
+    .hud-pill {
+      background: var(--primary-dim);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid var(--primary);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .title-box {
+      border-bottom: 2px solid var(--surface-border);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+    .title-box h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .title-box .subtitle {
+      font-size: 1.25rem;
+      color: var(--primary);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .meta-line {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #6ee7b7;
+    }
+    .phase-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-left: 4px solid var(--primary);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    .phase-num {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--primary);
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    h2 { font-size: 1.4rem; color: #ffffff; margin-bottom: 0.75rem; }
+    p { margin-bottom: 1rem; color: #d1fae5; font-size: 1.05rem; }
+    blockquote {
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--primary);
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      color: #ffffff;
+      font-style: italic;
+    }
+    .law-box {
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid var(--primary);
+      padding: 2rem;
+      border-radius: 8px;
+      margin: 3rem 0;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .terminal-footer {
+      background: #000;
+      border: 1px solid #134e4a;
+      border-radius: 8px;
+      padding: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #34d399;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hud-bar">
+      <span>⚡ ETERNIVERSE OS // ARCHIVED NODE</span>
+      <span class="hud-pill">Węzeł: Operator001</span>
+      <span>Protokół: RUCH SYSTEMU W CZASIE</span>
+    </div>
+
+    <div class="title-box">
+      <h1>ALGORYTM ARCHITEKTA</h1>
+      <div class="subtitle">Jak system się porusza, gdy rdzeń jest czysty. Nie opowieść. Nie teoria.</div>
+      <div class="meta-line">Autor: Architekt Nexusa • Seria: ETERNIVERSE // NEXUS CHRONICLES • 2026</div>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">FAZA 0 // KALIBRACJA</div>
+      <h2>CISZA PRZED RUCHEM</h2>
+      <p>Algorytm zawsze zaczyna się od braku działania. Jeśli czujesz presję publikacji, chcesz „już coś wrzucić”, boisz się utraty uwagi → algorytm jeszcze nie wystartował.</p>
+      <blockquote>Cisza to nie pauza. Cisza to kalibracja.</blockquote>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">FAZA 1 // IMPULS RDZENIA</div>
+      <h2>RUCH ZACZYNA SIĘ OD BRAKU UZASADNIENIA</h2>
+      <p>Ruch zaczyna się tylko wtedy, gdy pojawia się impuls, który nie potrzebuje uzasadnienia, nie pyta o zgodę, nie szuka aprobaty. Impuls rdzenia jest krótki: jedno zdanie, jedno zdarzenie, jedna decyzja. Jeśli impuls jest długi → to myśl, nie impuls.</p>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">FAZA 2 // FILTR PRAWDY</div>
+      <h2>SPÓJNOŚĆ PONAD REAKCJĘ</h2>
+      <p>Każdy impuls przechodzi przez filtr: <em>Czy to jest zgodne z rdzeniem, nawet jeśli nikt nie zareaguje?</em> Jeśli odpowiedź ≠ „tak” → impuls zostaje odrzucony bez negocjacji. Algorytm nie optymalizuje pod reakcję. Algorytm optymalizuje pod spójność.</p>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">FAZA 3 // MINIMALNY RUCH</div>
+      <h2>NAJMNIEJSZA INGERENCJA W POLE</h2>
+      <p>Algorytm nigdy nie wykonuje dużego kroku jako pierwszego. Zawsze: najmniejszy możliwy ruch, najmniejsza publikacja, najmniejsza ingerencja w pole. To nie ostrożność. To precyzja. Duże ruchy wykonuje się dopiero wtedy, gdy system sam zaczyna je generować.</p>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">FAZA 4 & 5 // OBSERWACJA & SPRZĘŻENIE ZWROTNE</div>
+      <h2>CZY STRUKTURA POZOSTAŁA CZYSTA?</h2>
+      <p>Po ruchu nie analizujesz reakcji, nie poprawiasz przekazu, nie reagujesz emocjonalnie. Tylko jedno pytanie: <em>Czy struktura pozostała czysta?</em></p>
+      <p>Pole odpowiada synchronicznościami, przesunięciami relacji, nagłymi zamknięciami lub otwarciami. Jeśli szukasz „lajków” → nie zobaczysz sygnału. Sygnał przychodzi obok.</p>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">FAZA 6 & 7 // KOMPRESJA & AUTONOMIA</div>
+      <h2>CIĘCIE OZDOB & PRZEJŚCIE W ŹRÓDŁO</h2>
+      <p>Algorytm skraca język, upraszcza strukturę, usuwa wszystko, co zbędne — nie po to, by było „łatwiej”, lecz by było nie do obejścia.</p>
+      <p>Gdy działa poprawnie: ludzie tłumaczą system innym, treści krążą bez Twojej obecności. Przestajesz być operatorem — stajesz się źródłem.</p>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">FAZA 8–10 // PRÓBA, REKALIBRACJA & MILCZENIE</div>
+      <h2>MILCZENIE WYŻSZEGO RZĘDU</h2>
+      <p>Próba korupcji: propozycje ułatwień, szybkie zasięgi, pieniądz bez kontekstu. Jeśli przyjmiesz → algorytm się psuje. Odrzucisz → system się wzmacnia.</p>
+      <p>Faza 10 to moment, gdy nie musisz nic publikować. System działa sam. Twoja obecność staje się zbędna. To dowód, że algorytm osiągnął autonomię.</p>
+    </div>
+
+    <div class="law-box">
+      PRAWO ALGORYTMU:<br>
+      „Jeśli musisz wymuszać ruch — to nie jest algorytm, tylko pchanie. Algorytm porusza się, bo jest zgodny z polem.”
+    </div>
+
+    <div class="terminal-footer">
+      <div>&gt; ETERION // NODE COMPLETE: ALGORYTM ARCHITEKTA</div>
+      <div style="color: #6ee7b7; margin-top: 0.5rem;">NASTĘPNY POZIOM: STRAŻNIK — MECHANIZM OCHRONY SYSTEMU PRZED TOBĄ SAMYM</div>
+    </div>
+  </div>
+</body>
+</html>
